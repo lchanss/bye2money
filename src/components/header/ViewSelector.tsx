@@ -1,6 +1,6 @@
-import CalendarIcon from "../../assets/icons/calendar.svg?react";
-import DocIcon from "../../assets/icons/doc.svg?react";
-import ChartIcon from "../../assets/icons/chart.svg?react";
+import CalendarIcon from "@/assets/icons/calendar.svg?react";
+import DocIcon from "@/assets/icons/doc.svg?react";
+import ChartIcon from "@/assets/icons/chart.svg?react";
 import { useState } from "react";
 
 const views: { type: ViewType; icon: React.ComponentType }[] = [
