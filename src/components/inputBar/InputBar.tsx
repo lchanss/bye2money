@@ -32,7 +32,7 @@ export default function InputBar() {
   };
 
   return (
-    <form className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 divide-x-1 border px-6 py-4 [&>*:not(:last-child)]:pr-6">
+    <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 divide-x-1 border px-6 py-4 [&>*:not(:last-child)]:pr-6">
       <DateField
         value={transaction.date}
         onChange={(newValue) => handleTransactionChange("date", newValue)}
@@ -57,7 +57,7 @@ export default function InputBar() {
         value={transaction.category}
         onChange={(newValue) => handleTransactionChange("category", newValue)}
       />
-    </form>
+    </div>
   );
 }
 
@@ -96,7 +96,7 @@ function AmountField({ value, onChange }: AmountFieldProps) {
           <input
             type="text"
             id="amount"
-            className="text-semibold-12 w-full"
+            className="text-semibold-12 w-full text-right"
             onChange={(e) => onChange(Number(e.target.value))}
           />
           원
