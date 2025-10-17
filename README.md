@@ -4,7 +4,7 @@
 
 ### 0. 환경 세팅
 
-- [ ] react + vite + typescript + tailwind 설치
+- [x] react + vite + typescript + tailwind 설치
 
 ### 1. tailwind에 커스텀 디자인 시스템 적용
 
@@ -14,7 +14,7 @@
 - 색상
   - [ ] primitive와 token 색상 지정
 - 아이콘
-  - [ ] svg로 다운로드해서 asset에 넣어두기
+  - [x] svg로 다운로드해서 asset에 넣어두기
 
 ### 2. 메인 페이지 레이아웃 구현
 
