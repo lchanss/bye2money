@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import LabeledInput from "../common/LabledInput";
 
 import MinusIcon from "@/assets/icons/minus.svg?react";
+import PlusIcon from "@/assets/icons/plus.svg?react";
 
 type Transaction = {
   date: string;
@@ -11,6 +12,8 @@ type Transaction = {
   paymentMethod: string;
   category: string;
 };
+
+type TransactionType = "income" | "expense";
 
 const initialTransaction: Transaction = {
   date: "",
@@ -23,6 +26,13 @@ const initialTransaction: Transaction = {
 export default function InputBar() {
   const [transaction, setTransaction] =
     useState<Transaction>(initialTransaction);
+  const [transactionType, setTransactionType] = useState<"income" | "expense">(
+    "income",
+  );
+
+  const toggleTransactionType = () => {
+    setTransactionType((prev) => (prev === "income" ? "expense" : "income"));
+  };
 
   const handleTransactionChange = (
     field: keyof Transaction,
@@ -40,6 +50,8 @@ export default function InputBar() {
       <AmountField
         value={transaction.amount}
         onChange={(newValue) => handleTransactionChange("amount", newValue)}
+        transactionType={transactionType}
+        toggleTransactionType={toggleTransactionType}
       />
       <DescriptionField
         value={transaction.description}
@@ -83,21 +95,29 @@ function DateField({ value, onChange }: DateFieldProps) {
 type AmountFieldProps = {
   value: number;
   onChange: (newValue: number) => void;
+  transactionType: TransactionType;
+  toggleTransactionType: () => void;
 };
 
-function AmountField({ value, onChange }: AmountFieldProps) {
+function AmountField({
+  value,
+  onChange,
+  transactionType,
+  toggleTransactionType,
+}: AmountFieldProps) {
   return (
     <LabeledInput label="금액" htmlFor="amount" width="w-[134px]">
       <div className="flex justify-between">
-        <button>
-          <MinusIcon />
+        <button onClick={toggleTransactionType}>
+          {transactionType === "income" ? <PlusIcon /> : <MinusIcon />}
         </button>
         <div className="flex gap-1">
           <input
             type="text"
             id="amount"
             className="text-semibold-12 w-full text-right"
-            onChange={(e) => onChange(Number(e.target.value))}
+            value={value}
+            onChange={(e) => onChange(Math.abs(Number(e.target.value)))}
           />
           원
         </div>
