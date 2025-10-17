@@ -1,73 +1,31 @@
-# React + TypeScript + Vite
+# bye2money
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 나만의 체크포인트
 
-Currently, two official plugins are available:
+### 0. 환경 세팅
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [ ] react + vite + typescript + tailwind 설치
 
-## React Compiler
+### 1. tailwind에 커스텀 디자인 시스템 적용
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 타이포그래피
+  - [ ] 조선일보명조, pretendard 적용
+  - [ ] fontSize와 lineHeight 지정해서 폰트 스타일 종류 세분화
+- 색상
+  - [ ] primitive와 token 색상 지정
+- 아이콘
+  - [ ] svg로 다운로드해서 asset에 넣어두기
 
-## Expanding the ESLint configuration
+### 2. 메인 페이지 레이아웃 구현
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 헤더
+  - [ ] width, height, color 맞추어 영역만 표시
+  - [ ] 세부사항 추후 구현
+- 새로운 내역 입력 (`inputBar`)
+  - [ ] 위쪽에 라벨, 아래쪽에 입력창이 있는 `LabeledInput` 공통 컴포넌트 구현
+  - [ ] `Select` 공통 컴포넌트 구현
+  - [ ] '일자' 필드 구현
+  - [ ] '금액' 필드 구현
+  - [ ] '내용' 필드 구현
+  - [ ] '결제수단' 필드 구현
+  - [ ] '분류' 필드 구현
