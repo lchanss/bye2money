@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="h-54 flex items-center bg-colorchip-80 pt-10 pb-16 justify-center gap-44">
+    <header className="bg-colorchip-80 flex h-54 items-center justify-center gap-44 pt-10 pb-16">
       <AppTitle />
       <MonthNavigator />
       <ViewSelector />
