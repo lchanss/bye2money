@@ -1,10 +1,9 @@
-import { useState } from "react";
-
-import Divider from "../common/Divider";
+import { Fragment, useState } from "react";
 
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
 import Button from "@/components/common/Button";
+import Divider from "@/components/common/Divider";
 import LabeledField from "@/components/common/LabledInput";
 import TextInput from "@/components/common/TextInput";
 import type { Transaction, TransactionType } from "@/types";
@@ -37,43 +36,47 @@ export default function InputBar() {
     setTransaction((prev) => ({ ...prev, [field]: value }));
   };
 
+  const renderFields = () => {
+    const fields = [
+      <DateField
+        value={transaction.date}
+        onChange={(newValue) => handleTransactionChange("date", newValue)}
+      />,
+      <AmountField
+        value={transaction.amount}
+        onChange={(newValue) => handleTransactionChange("amount", newValue)}
+        transactionType={transaction.transactionType}
+        toggleTransactionType={toggleTransactionType}
+      />,
+      <DescriptionField
+        value={transaction.description}
+        onChange={(newValue) =>
+          handleTransactionChange("description", newValue)
+        }
+      />,
+      <PaymentMethodField
+        value={transaction.paymentMethod}
+        onChange={(newValue) =>
+          handleTransactionChange("paymentMethod", newValue)
+        }
+      />,
+      <CategoryField
+        value={transaction.category}
+        onChange={(newValue) => handleTransactionChange("category", newValue)}
+      />,
+    ];
+
+    return fields.map((field, index) => (
+      <Fragment key={index}>
+        {field}
+        {index < fields.length - 1 && <Divider orientation="vertical" />}
+      </Fragment>
+    ));
+  };
+
   return (
     <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 border px-6 py-4">
-      <div className="flex">
-        <DateField
-          value={transaction.date}
-          onChange={(newValue) => handleTransactionChange("date", newValue)}
-        />
-        <Divider orientation="vertical" className="mx-6" />
-        <AmountField
-          value={transaction.amount}
-          onChange={(newValue) => handleTransactionChange("amount", newValue)}
-          transactionType={transaction.transactionType}
-          toggleTransactionType={toggleTransactionType}
-        />
-        <Divider orientation="vertical" className="mx-6" />
-
-        <DescriptionField
-          value={transaction.description}
-          onChange={(newValue) =>
-            handleTransactionChange("description", newValue)
-          }
-        />
-        <Divider orientation="vertical" className="mx-6" />
-
-        <PaymentMethodField
-          value={transaction.paymentMethod}
-          onChange={(newValue) =>
-            handleTransactionChange("paymentMethod", newValue)
-          }
-        />
-        <Divider orientation="vertical" className="mx-6" />
-
-        <CategoryField
-          value={transaction.category}
-          onChange={(newValue) => handleTransactionChange("category", newValue)}
-        />
-      </div>
+      {renderFields()}
       <Button showIcon disabled={!isTransactionValid(transaction)} />
     </div>
   );
