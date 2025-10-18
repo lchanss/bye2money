@@ -23,11 +23,17 @@ const initialTransaction: Transaction = {
 export default function InputBar() {
   const [transaction, setTransaction] =
     useState<Transaction>(initialTransaction);
+  const categories =
+    transaction.transactionType === "expense"
+      ? ["식비", "교통비", "통신비"]
+      : ["급여", "상여", "기타"];
 
   const toggleTransactionType = () => {
     setTransaction((prev) => ({
       ...prev,
       transactionType: prev.transactionType === "income" ? "expense" : "income",
+      category: "",
+      paymentMethod: "",
     }));
   };
 
@@ -65,6 +71,7 @@ export default function InputBar() {
       <CategoryField
         value={transaction.category}
         onChange={(newValue) => handleTransactionChange("category", newValue)}
+        categories={categories}
       />,
     ];
 
@@ -196,13 +203,14 @@ function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
 type CategoryFieldProps = {
   value: string;
   onChange: (newValue: string) => void;
+  categories: string[];
 };
 
-function CategoryField({ value, onChange }: CategoryFieldProps) {
+function CategoryField({ value, onChange, categories }: CategoryFieldProps) {
   return (
     <LabeledField label="카테고리" htmlFor="category" width="w-[104px]">
       <Dropdown
-        options={["식비", "교통비", "오락비"]}
+        options={categories}
         value={value}
         onChange={onChange}
         menuClassName="mt-4.5"
