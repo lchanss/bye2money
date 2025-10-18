@@ -1,24 +1,15 @@
-import { useReducer, useState } from "react";
+import { useState } from "react";
 
+import Button from "../common/Button";
 import LabeledInput from "../common/LabledInput";
 
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
-import { localeStringToNumber } from "@/utils";
-
-type Transaction = {
-  date: string;
-  amount: number;
-  description: string;
-  paymentMethod: string;
-  category: string;
-  transactionType: TransactionType;
-};
-
-type TransactionType = "income" | "expense";
+import type { Transaction, TransactionType } from "@/types";
+import { formatDate, localeStringToNumber } from "@/utils";
 
 const initialTransaction: Transaction = {
-  date: "",
+  date: formatDate(new Date()),
   amount: 0,
   description: "",
   paymentMethod: "",
@@ -45,33 +36,35 @@ export default function InputBar() {
   };
 
   return (
-    <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 divide-x-1 border px-6 py-4 [&>*:not(:last-child)]:pr-6">
-      <DateField
-        value={transaction.date}
-        onChange={(newValue) => handleTransactionChange("date", newValue)}
-      />
-      <AmountField
-        value={transaction.amount}
-        onChange={(newValue) => handleTransactionChange("amount", newValue)}
-        transactionType={transaction.transactionType}
-        toggleTransactionType={toggleTransactionType}
-      />
-      <DescriptionField
-        value={transaction.description}
-        onChange={(newValue) =>
-          handleTransactionChange("description", newValue)
-        }
-      />
-      <PaymentMethodField
-        value={transaction.paymentMethod}
-        onChange={(newValue) =>
-          handleTransactionChange("paymentMethod", newValue)
-        }
-      />
-      <CategoryField
-        value={transaction.category}
-        onChange={(newValue) => handleTransactionChange("category", newValue)}
-      />
+    <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 border px-6 py-4">
+      <div className="flex divide-x-1 [&>*]:px-6 [&>*:first-child]:pl-0 [&>*:last-child]:pr-0">
+        <DateField
+          value={transaction.date}
+          onChange={(newValue) => handleTransactionChange("date", newValue)}
+        />
+        <AmountField
+          value={transaction.amount}
+          onChange={(newValue) => handleTransactionChange("amount", newValue)}
+          transactionType={transaction.transactionType}
+          toggleTransactionType={toggleTransactionType}
+        />
+        <DescriptionField
+          value={transaction.description}
+          onChange={(newValue) =>
+            handleTransactionChange("description", newValue)
+          }
+        />
+        <PaymentMethodField
+          value={transaction.paymentMethod}
+          onChange={(newValue) =>
+            handleTransactionChange("paymentMethod", newValue)
+          }
+        />
+        <CategoryField
+          value={transaction.category}
+          onChange={(newValue) => handleTransactionChange("category", newValue)}
+        />
+      </div>
     </div>
   );
 }
@@ -165,6 +158,9 @@ function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
+        <option value="" disabled hidden>
+          결제수단 선택
+        </option>
         <option value="card">신용카드</option>
         <option value="bank">계좌이체</option>
         <option value="cash">현금</option>
@@ -187,6 +183,9 @@ function CategoryField({ value, onChange }: CategoryFieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
+        <option value="" disabled hidden>
+          카테고리 선택
+        </option>
         <option value="food">식비</option>
         <option value="transport">교통비</option>
         <option value="entertainment">오락비</option>
@@ -194,3 +193,12 @@ function CategoryField({ value, onChange }: CategoryFieldProps) {
     </LabeledInput>
   );
 }
+
+const isTransactionValid = (transaction: Transaction): boolean => {
+  return (
+    transaction.date !== "" &&
+    transaction.description !== "" &&
+    transaction.paymentMethod !== "" &&
+    transaction.category !== ""
+  );
+};
