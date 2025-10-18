@@ -1,5 +1,7 @@
 import { Fragment, useState } from "react";
 
+import Dropdown from "../common/DropDown";
+
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
 import Button from "@/components/common/Button";
@@ -75,7 +77,7 @@ export default function InputBar() {
   };
 
   return (
-    <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 border px-6 py-4">
+    <div className="bg-neutral-surface-default border-neutral-border-default flex h-20 gap-6 border px-6 py-4">
       {renderFields()}
       <Button showIcon disabled={!isTransactionValid(transaction)} />
     </div>
@@ -118,7 +120,11 @@ function AmountField({
     <LabeledField label="금액" htmlFor="amount" width="w-[134px]">
       <div className="flex items-center gap-2">
         <button onClick={toggleTransactionType}>
-          {transactionType === "income" ? <PlusIcon /> : <MinusIcon />}
+          {transactionType === "income" ? (
+            <PlusIcon width={16} height={16} />
+          ) : (
+            <MinusIcon width={16} height={16} />
+          )}
         </button>
         <TextInput
           type="text"
@@ -128,7 +134,7 @@ function AmountField({
           onChange={(e) => onChange(localeStringToNumber(e.target.value) || 0)}
           textAreaOnly
         />
-        원
+        <span className="leading-4">원</span>
       </div>
     </LabeledField>
   );
@@ -177,19 +183,12 @@ type PaymentMethodFieldProps = {
 function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
   return (
     <LabeledField label="결제수단" htmlFor="payment-method" width="w-[104px]">
-      <select
-        id="payment-method"
-        className="text-semibold-12"
+      <Dropdown
+        options={["신용카드", "계좌이체", "현금"]}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        <option value="" disabled hidden>
-          결제수단 선택
-        </option>
-        <option value="card">신용카드</option>
-        <option value="bank">계좌이체</option>
-        <option value="cash">현금</option>
-      </select>
+        onChange={onChange}
+        menuClassName="mt-4.5"
+      />
     </LabeledField>
   );
 }
@@ -202,19 +201,12 @@ type CategoryFieldProps = {
 function CategoryField({ value, onChange }: CategoryFieldProps) {
   return (
     <LabeledField label="카테고리" htmlFor="category" width="w-[104px]">
-      <select
-        id="category"
-        className="text-semibold-12"
+      <Dropdown
+        options={["식비", "교통비", "오락비"]}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        <option value="" disabled hidden>
-          카테고리 선택
-        </option>
-        <option value="food">식비</option>
-        <option value="transport">교통비</option>
-        <option value="entertainment">오락비</option>
-      </select>
+        onChange={onChange}
+        menuClassName="mt-4.5"
+      />
     </LabeledField>
   );
 }
@@ -222,7 +214,6 @@ function CategoryField({ value, onChange }: CategoryFieldProps) {
 const isTransactionValid = (transaction: Transaction): boolean => {
   return (
     transaction.date !== "" &&
-    transaction.description !== "" &&
     transaction.paymentMethod !== "" &&
     transaction.category !== ""
   );

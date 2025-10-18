@@ -15,7 +15,7 @@ export default function LabeledField({
 }: LabeledFieldProps) {
   return (
     <div className={width}>
-      <div className="flex justify-between">
+      <div className="mb-1 flex justify-between">
         <label htmlFor={htmlFor} className="text-light-12">
           {label}
         </label>

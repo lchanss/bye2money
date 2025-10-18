@@ -8,6 +8,10 @@ button {
   }
 }
 
+input {
+  display: block; /* 기본 여백을 없애기 위함 */
+}
+
 @font-face {
   font-family: "Pretendard";
   font-style: normal;
