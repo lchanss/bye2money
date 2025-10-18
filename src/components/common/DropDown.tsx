@@ -51,7 +51,7 @@ export default function Dropdown({
     <div className={`relative ${className}`} ref={dropdownRef}>
       {/* 선택된 값 표시 */}
       <button
-        className="text-semibold-12 flex w-full items-center justify-between gap-1 rounded-lg"
+        className="text-semibold-12 flex w-full items-center justify-between gap-1"
         onClick={toggleDropdown}
       >
         <span className={value ? "" : "text-neutral-text-weak"}>

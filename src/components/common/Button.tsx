@@ -1,12 +1,11 @@
 import CheckIcon from "@/assets/icons/check.svg?react";
 
-type ButtonProps = {
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   text?: string;
   showIcon?: boolean;
   size?: "small" | "medium" | "large";
-  type?: "container" | "outline" | "ghost";
+  buttonType?: "container" | "outline" | "ghost";
   color?: string;
-  disabled?: boolean;
 };
 
 // TODO: 타입에 따라 스타일 차별화
@@ -15,9 +14,11 @@ export default function Button({
   text,
   showIcon = true,
   size = "medium",
-  type = "ghost",
+  buttonType = "ghost",
   color = "bg-neutral-text-default",
   disabled = false,
+  className = "",
+  ...props
 }: ButtonProps) {
   const sizeClass =
     size === "small"
@@ -28,8 +29,9 @@ export default function Button({
 
   return (
     <button
-      className={`${sizeClass} flex items-center justify-center rounded-md ${text && "px-4 py-2"} hover:opacity-80 active:opacity-64 disabled:opacity-32`}
+      className={`${sizeClass} flex items-center justify-center rounded-md ${text && "px-4 py-2"} hover:opacity-80 active:opacity-64 disabled:opacity-32 ${className}`}
       disabled={disabled}
+      {...props}
     >
       {showIcon && (
         <div
