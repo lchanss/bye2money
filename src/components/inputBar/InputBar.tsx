@@ -4,6 +4,7 @@ import LabeledInput from "../common/LabledInput";
 
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
+import { localeStringToNumber } from "@/utils";
 
 type Transaction = {
   date: string;
@@ -11,6 +12,7 @@ type Transaction = {
   description: string;
   paymentMethod: string;
   category: string;
+  transactionType: TransactionType;
 };
 
 type TransactionType = "income" | "expense";
@@ -21,17 +23,18 @@ const initialTransaction: Transaction = {
   description: "",
   paymentMethod: "",
   category: "",
+  transactionType: "expense",
 };
 
 export default function InputBar() {
   const [transaction, setTransaction] =
     useState<Transaction>(initialTransaction);
-  const [transactionType, setTransactionType] = useState<"income" | "expense">(
-    "income",
-  );
 
   const toggleTransactionType = () => {
-    setTransactionType((prev) => (prev === "income" ? "expense" : "income"));
+    setTransaction((prev) => ({
+      ...prev,
+      transactionType: prev.transactionType === "income" ? "expense" : "income",
+    }));
   };
 
   const handleTransactionChange = (
@@ -50,7 +53,7 @@ export default function InputBar() {
       <AmountField
         value={transaction.amount}
         onChange={(newValue) => handleTransactionChange("amount", newValue)}
-        transactionType={transactionType}
+        transactionType={transaction.transactionType}
         toggleTransactionType={toggleTransactionType}
       />
       <DescriptionField
@@ -116,8 +119,10 @@ function AmountField({
             type="text"
             id="amount"
             className="text-semibold-12 w-full text-right"
-            value={value}
-            onChange={(e) => onChange(Math.abs(Number(e.target.value)))}
+            value={value.toLocaleString()}
+            onChange={(e) =>
+              onChange(localeStringToNumber(e.target.value) || 0)
+            }
           />
           원
         </div>
