@@ -1,21 +1,30 @@
-type LabeledInputProps = {
+type LabeledFieldProps = {
   label: string;
   htmlFor: string;
   width?: string;
+  helperText?: string;
   children: React.ReactNode;
 };
 
-export default function LabeledInput({
+export default function LabeledField({
   label,
   htmlFor,
   width,
+  helperText,
   children,
-}: LabeledInputProps) {
+}: LabeledFieldProps) {
   return (
     <div className={width}>
-      <label htmlFor={htmlFor} className={`text-light-12 flex flex-col gap-1`}>
-        {label}
-      </label>
+      <div className="flex justify-between">
+        <label htmlFor={htmlFor} className="text-light-12">
+          {label}
+        </label>
+        {helperText && (
+          <span className="text-light-12 text-neutral-text-weak">
+            {helperText}
+          </span>
+        )}
+      </div>
       {children}
     </div>
   );

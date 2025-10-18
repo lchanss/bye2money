@@ -5,7 +5,7 @@ import Divider from "../common/Divider";
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
 import Button from "@/components/common/Button";
-import LabeledInput from "@/components/common/LabledInput";
+import LabeledField from "@/components/common/LabledInput";
 import TextInput from "@/components/common/TextInput";
 import type { Transaction, TransactionType } from "@/types";
 import { formatDate, localeStringToNumber } from "@/utils";
@@ -86,7 +86,7 @@ type DateFieldProps = {
 
 function DateField({ value, onChange }: DateFieldProps) {
   return (
-    <LabeledInput label="일자" htmlFor="date" width="w-[88px]">
+    <LabeledField label="일자" htmlFor="date" width="w-[88px]">
       <input
         type="date"
         id="date"
@@ -94,7 +94,7 @@ function DateField({ value, onChange }: DateFieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-    </LabeledInput>
+    </LabeledField>
   );
 }
 
@@ -112,7 +112,7 @@ function AmountField({
   toggleTransactionType,
 }: AmountFieldProps) {
   return (
-    <LabeledInput label="금액" htmlFor="amount" width="w-[134px]">
+    <LabeledField label="금액" htmlFor="amount" width="w-[134px]">
       <div className="flex items-center gap-2">
         <button onClick={toggleTransactionType}>
           {transactionType === "income" ? <PlusIcon /> : <MinusIcon />}
@@ -127,7 +127,7 @@ function AmountField({
         />
         원
       </div>
-    </LabeledInput>
+    </LabeledField>
   );
 }
 
@@ -137,17 +137,32 @@ type DescriptionFieldProps = {
 };
 
 function DescriptionField({ value, onChange }: DescriptionFieldProps) {
+  const MAX_LENGTH = 32;
+  const textCount = `${value.length}/${MAX_LENGTH}`;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (newValue.length <= MAX_LENGTH) {
+      onChange(newValue);
+    }
+  };
+
   return (
-    <LabeledInput label="내용" htmlFor="description" width="w-[160px]">
+    <LabeledField
+      label="내용"
+      htmlFor="description"
+      width="w-[160px]"
+      helperText={textCount}
+    >
       <TextInput
         id="description"
         className="text-semibold-12"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
         placeholder="입력하세요"
         textAreaOnly
       />
-    </LabeledInput>
+    </LabeledField>
   );
 }
 
@@ -158,7 +173,7 @@ type PaymentMethodFieldProps = {
 
 function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
   return (
-    <LabeledInput label="결제수단" htmlFor="payment-method" width="w-[104px]">
+    <LabeledField label="결제수단" htmlFor="payment-method" width="w-[104px]">
       <select
         id="payment-method"
         className="text-semibold-12"
@@ -172,7 +187,7 @@ function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
         <option value="bank">계좌이체</option>
         <option value="cash">현금</option>
       </select>
-    </LabeledInput>
+    </LabeledField>
   );
 }
 
@@ -183,7 +198,7 @@ type CategoryFieldProps = {
 
 function CategoryField({ value, onChange }: CategoryFieldProps) {
   return (
-    <LabeledInput label="카테고리" htmlFor="category" width="w-[104px]">
+    <LabeledField label="카테고리" htmlFor="category" width="w-[104px]">
       <select
         id="category"
         className="text-semibold-12"
@@ -197,7 +212,7 @@ function CategoryField({ value, onChange }: CategoryFieldProps) {
         <option value="transport">교통비</option>
         <option value="entertainment">오락비</option>
       </select>
-    </LabeledInput>
+    </LabeledField>
   );
 }
 

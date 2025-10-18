@@ -15,11 +15,11 @@ export default function TextInput({
   const baseStyles = textAreaOnly
     ? "h-4 placeholder:text-semibold-12 placeholder:text-neutral-text-weak focus:outline-none bg-transparent"
     : "rounded-lg px-4 py-2 placeholder:text-semibold-12 placeholder:text-neutral-text-weak focus:outline-none";
-
+  console.log("error:", error);
   const stateStyles = textAreaOnly
     ? ""
     : error
-      ? "border border-red-500 bg-white focus:border-danger-border-default"
+      ? "border border-danger-border-default bg-white"
       : disabled
         ? "bg-neutral-surface-weak text-neutral-text-weak cursor-default"
         : "bg-neutral-surface-point border border-transparent focus:border-neutral-border-default";
