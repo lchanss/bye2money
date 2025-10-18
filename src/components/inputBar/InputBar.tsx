@@ -1,13 +1,14 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-import Dropdown from "../common/DropDown";
-
+import { getPaymentMethods } from "@/apis/transaction";
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
 import Button from "@/components/common/Button";
 import Divider from "@/components/common/Divider";
+import Dropdown from "@/components/common/DropDown";
 import LabeledField from "@/components/common/LabledInput";
 import TextInput from "@/components/common/TextInput";
+import { CATEGORIES } from "@/constants";
 import type { Transaction, TransactionType } from "@/types";
 import { formatDate, localeStringToNumber } from "@/utils";
 
@@ -23,10 +24,8 @@ const initialTransaction: Transaction = {
 export default function InputBar() {
   const [transaction, setTransaction] =
     useState<Transaction>(initialTransaction);
-  const categories =
-    transaction.transactionType === "expense"
-      ? ["식비", "교통비", "통신비"]
-      : ["급여", "상여", "기타"];
+  const categories = CATEGORIES[transaction.transactionType];
+  const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
 
   const toggleTransactionType = () => {
     setTransaction((prev) => ({
@@ -67,6 +66,7 @@ export default function InputBar() {
         onChange={(newValue) =>
           handleTransactionChange("paymentMethod", newValue)
         }
+        paymentMethods={paymentMethods}
       />,
       <CategoryField
         value={transaction.category}
@@ -82,6 +82,14 @@ export default function InputBar() {
       </Fragment>
     ));
   };
+
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      const methods = await getPaymentMethods();
+      setPaymentMethods(methods);
+    };
+    fetchPaymentMethods();
+  }, []);
 
   return (
     <div className="bg-neutral-surface-default border-neutral-border-default flex h-20 gap-6 border px-6 py-4">
@@ -185,13 +193,18 @@ function DescriptionField({ value, onChange }: DescriptionFieldProps) {
 type PaymentMethodFieldProps = {
   value: string;
   onChange: (newValue: string) => void;
+  paymentMethods: string[];
 };
 
-function PaymentMethodField({ value, onChange }: PaymentMethodFieldProps) {
+function PaymentMethodField({
+  value,
+  onChange,
+  paymentMethods,
+}: PaymentMethodFieldProps) {
   return (
     <LabeledField label="결제수단" htmlFor="payment-method" width="w-[104px]">
       <Dropdown
-        options={["신용카드", "계좌이체", "현금"]}
+        options={paymentMethods}
         value={value}
         onChange={onChange}
         menuClassName="mt-4.5"
@@ -208,7 +221,7 @@ type CategoryFieldProps = {
 
 function CategoryField({ value, onChange, categories }: CategoryFieldProps) {
   return (
-    <LabeledField label="카테고리" htmlFor="category" width="w-[104px]">
+    <LabeledField label="분류" htmlFor="category" width="w-[104px]">
       <Dropdown
         options={categories}
         value={value}
