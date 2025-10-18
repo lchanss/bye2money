@@ -26,10 +26,9 @@ export default function Button({
         ? "text-semibold-16 gap-2"
         : "text-serif-48 gap-2";
 
-  console.log(disabled);
   return (
     <button
-      className={`${sizeClass} flex items-center justify-center rounded-md px-4 py-2 hover:opacity-80 active:opacity-64 disabled:opacity-32`}
+      className={`${sizeClass} flex items-center justify-center rounded-md ${text && "px-4 py-2"} hover:opacity-80 active:opacity-64 disabled:opacity-32`}
       disabled={disabled}
     >
       {showIcon && (

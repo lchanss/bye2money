@@ -12,11 +12,8 @@ export default function LabeledInput({
   children,
 }: LabeledInputProps) {
   return (
-    <div>
-      <label
-        htmlFor={htmlFor}
-        className={`text-light-12 flex flex-col gap-1 ${width}`}
-      >
+    <div className={width}>
+      <label htmlFor={htmlFor} className={`text-light-12 flex flex-col gap-1`}>
         {label}
       </label>
       {children}

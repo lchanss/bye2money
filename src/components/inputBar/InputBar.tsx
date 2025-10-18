@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-import Button from "../common/Button";
-import LabeledInput from "../common/LabledInput";
+import Divider from "../common/Divider";
 
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
+import Button from "@/components/common/Button";
+import LabeledInput from "@/components/common/LabledInput";
+import TextInput from "@/components/common/TextInput";
 import type { Transaction, TransactionType } from "@/types";
 import { formatDate, localeStringToNumber } from "@/utils";
 
@@ -37,35 +39,42 @@ export default function InputBar() {
 
   return (
     <div className="bg-neutral-surface-default border-neutral-border-default flex h-19 gap-6 border px-6 py-4">
-      <div className="flex divide-x-1 [&>*]:px-6 [&>*:first-child]:pl-0 [&>*:last-child]:pr-0">
+      <div className="flex">
         <DateField
           value={transaction.date}
           onChange={(newValue) => handleTransactionChange("date", newValue)}
         />
+        <Divider orientation="vertical" className="mx-6" />
         <AmountField
           value={transaction.amount}
           onChange={(newValue) => handleTransactionChange("amount", newValue)}
           transactionType={transaction.transactionType}
           toggleTransactionType={toggleTransactionType}
         />
+        <Divider orientation="vertical" className="mx-6" />
+
         <DescriptionField
           value={transaction.description}
           onChange={(newValue) =>
             handleTransactionChange("description", newValue)
           }
         />
+        <Divider orientation="vertical" className="mx-6" />
+
         <PaymentMethodField
           value={transaction.paymentMethod}
           onChange={(newValue) =>
             handleTransactionChange("paymentMethod", newValue)
           }
         />
+        <Divider orientation="vertical" className="mx-6" />
+
         <CategoryField
           value={transaction.category}
           onChange={(newValue) => handleTransactionChange("category", newValue)}
         />
       </div>
-      <Button showIcon disabled={!isTransactionValid(transaction)} />;
+      <Button showIcon disabled={!isTransactionValid(transaction)} />
     </div>
   );
 }
@@ -104,22 +113,19 @@ function AmountField({
 }: AmountFieldProps) {
   return (
     <LabeledInput label="금액" htmlFor="amount" width="w-[134px]">
-      <div className="flex justify-between">
+      <div className="flex items-center gap-2">
         <button onClick={toggleTransactionType}>
           {transactionType === "income" ? <PlusIcon /> : <MinusIcon />}
         </button>
-        <div className="flex gap-1">
-          <input
-            type="text"
-            id="amount"
-            className="text-semibold-12 w-full text-right"
-            value={value.toLocaleString()}
-            onChange={(e) =>
-              onChange(localeStringToNumber(e.target.value) || 0)
-            }
-          />
-          원
-        </div>
+        <TextInput
+          type="text"
+          id="amount"
+          className="text-semibold-12 w-full text-right"
+          value={value.toLocaleString()}
+          onChange={(e) => onChange(localeStringToNumber(e.target.value) || 0)}
+          textAreaOnly
+        />
+        원
       </div>
     </LabeledInput>
   );
@@ -133,13 +139,13 @@ type DescriptionFieldProps = {
 function DescriptionField({ value, onChange }: DescriptionFieldProps) {
   return (
     <LabeledInput label="내용" htmlFor="description" width="w-[160px]">
-      <input
-        type="text"
+      <TextInput
         id="description"
         className="text-semibold-12"
-        placeholder="입력하세요"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        placeholder="입력하세요"
+        textAreaOnly
       />
     </LabeledInput>
   );
