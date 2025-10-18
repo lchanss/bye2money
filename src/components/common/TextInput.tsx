@@ -15,7 +15,6 @@ export default function TextInput({
   const baseStyles = textAreaOnly
     ? "h-4 placeholder:text-semibold-12 placeholder:text-neutral-text-weak focus:outline-none bg-transparent"
     : "rounded-lg px-4 py-2 placeholder:text-semibold-12 placeholder:text-neutral-text-weak focus:outline-none";
-  console.log("error:", error);
   const stateStyles = textAreaOnly
     ? ""
     : error

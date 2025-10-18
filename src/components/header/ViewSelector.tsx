@@ -22,6 +22,7 @@ export default function ViewSelector() {
     <div className="flex gap-1">
       {views.map((view) => (
         <ViewButton
+          key={view.type}
           icon={view.icon}
           isSelected={selectedView === view.type}
           onClick={() => handleViewChange(view.type)}
