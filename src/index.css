@@ -2,6 +2,10 @@
 
 button {
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 @font-face {

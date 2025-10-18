@@ -65,6 +65,7 @@ export default function InputBar() {
           onChange={(newValue) => handleTransactionChange("category", newValue)}
         />
       </div>
+      <Button showIcon disabled={!isTransactionValid(transaction)} />;
     </div>
   );
 }
