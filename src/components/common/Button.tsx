@@ -9,7 +9,6 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 // TODO: 타입에 따라 스타일 차별화
-// TODO: cn 함수로 클래스네임 관리
 export default function Button({
   text,
   showIcon = true,

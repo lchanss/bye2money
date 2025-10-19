@@ -14,9 +14,9 @@ type PostTransactionRequest = {
 };
 
 export const getPaymentMethods = () => {
-  return getRequest<GetPaymentMethodsResponse>("/api/payment-methods");
+  return getRequest<GetPaymentMethodsResponse>("/payment-methods");
 };
 
 export const createTransaction = (transaction: PostTransactionRequest) => {
-  return postRequest("/api/transactions", transaction);
+  return postRequest("/transactions", transaction);
 };
