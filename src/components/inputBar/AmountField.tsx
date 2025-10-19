@@ -1,6 +1,6 @@
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
-import LabeledField from "@/components/common/LabledInput";
+import LabeledField from "@/components/common/LabeledField";
 import TextInput from "@/components/common/TextInput";
 import type { TransactionType } from "@/types";
 import { localeStringToNumber } from "@/utils";

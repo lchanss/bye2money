@@ -122,7 +122,7 @@ export default function InputBar() {
   );
 }
 
-const isTransactionValid = (transaction: Transaction): boolean => {
+const isTransactionValid = (transaction: Transaction) => {
   return (
     transaction.date !== "" &&
     transaction.paymentMethod !== "" &&

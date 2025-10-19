@@ -1,5 +1,5 @@
 import Dropdown from "@/components/common/DropDown";
-import LabeledField from "@/components/common/LabledInput";
+import LabeledField from "@/components/common/LabeledField";
 
 type CategoryFieldProps = {
   value: string;
