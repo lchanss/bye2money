@@ -69,9 +69,9 @@ export default function Dropdown({
         <div
           className={`border-neutral-border-default absolute top-full right-0 left-0 z-10 max-h-60 overflow-auto border bg-white shadow-lg ${menuClassName}`}
         >
-          {options.map((option, index) => (
+          {options.map((option) => (
             <div
-              key={index}
+              key={option}
               className="text-semibold-12 hover:bg-neutral-surface-point cursor-pointer px-4 py-2"
               onClick={() => handleSelect(option)}
             >

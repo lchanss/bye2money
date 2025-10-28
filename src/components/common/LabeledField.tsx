@@ -1,9 +1,10 @@
+import type { PropsWithChildren } from "react";
+
 type LabeledFieldProps = {
   label: string;
   htmlFor: string;
   width?: string;
   helperText?: string;
-  children: React.ReactNode;
 };
 
 export default function LabeledField({
@@ -12,7 +13,7 @@ export default function LabeledField({
   width,
   helperText,
   children,
-}: LabeledFieldProps) {
+}: PropsWithChildren<LabeledFieldProps>) {
   return (
     <div className={width}>
       <div className="mb-1 flex justify-between">

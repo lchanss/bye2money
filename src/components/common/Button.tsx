@@ -3,10 +3,18 @@ import CheckIcon from "@/assets/icons/check.svg?react";
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   text?: string;
   showIcon?: boolean;
-  size?: "small" | "medium" | "large";
+  size?: ButtonSize;
   buttonType?: "container" | "outline" | "ghost";
   color?: string;
 };
+
+type ButtonSize = "small" | "medium" | "large";
+
+const SIZE_CLASS: Record<ButtonSize, string> = {
+  small: "text-semibold-12 gap-1",
+  medium: "text-semibold-16 gap-2",
+  large: "text-serif-48 gap-2",
+} as const;
 
 // TODO: 타입에 따라 스타일 차별화
 export default function Button({
@@ -19,12 +27,7 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const sizeClass =
-    size === "small"
-      ? "text-semibold-12 gap-1"
-      : size === "medium"
-        ? "text-semibold-16 gap-2"
-        : "text-serif-48 gap-2";
+  const sizeClass = SIZE_CLASS[size];
 
   return (
     <button
