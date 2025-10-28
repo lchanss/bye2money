@@ -1,5 +1,7 @@
 import { http, HttpResponse, delay } from "msw";
 
+import { MOCK_ENTRY_LIST } from "./mockData";
+
 import type { EntryType } from "@/types";
 
 type GetPaymentMethodsResponse = string[];
@@ -16,6 +18,33 @@ type PostEntryRequest = {
 type PostEntryResponse = PostEntryRequest & {
   id: number;
   createdAt: string;
+};
+
+export type GetEntryListResponse = {
+  summary: {
+    totalIncome: number;
+    totalExpense: number;
+    totalCount: number;
+  };
+  dailyGroups: DailyGroup[];
+};
+
+type DailyGroup = {
+  date: string; // (YYYY-MM-DD)
+  dailySummary: {
+    income: number;
+    expense: number;
+  };
+  entries: Entry[];
+};
+
+type Entry = {
+  date: string;
+  amount: number;
+  description: string;
+  paymentMethod: string;
+  category: string;
+  entryType: EntryType;
 };
 
 const MOCK_PAYMENT_METHODS: GetPaymentMethodsResponse = [
@@ -56,5 +85,11 @@ export const handlers = [
     return HttpResponse.json<PostEntryResponse>(response, {
       status: 201,
     });
+  }),
+
+  http.get("/api/entry", async () => {
+    await delay(500);
+
+    return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
   }),
 ];

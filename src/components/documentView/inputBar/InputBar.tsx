@@ -6,7 +6,7 @@ import DateField from "./DateField";
 import DescriptionField from "./DescriptionField";
 import PaymentMethodField from "./PaymentMethodField";
 
-import { createEntry, getPaymentMethods } from "@/apis/transaction";
+import { createEntry, getPaymentMethods } from "@/apis/entry";
 import Button from "@/components/common/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";

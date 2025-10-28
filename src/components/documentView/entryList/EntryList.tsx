@@ -1,4 +1,4 @@
-import type { GetEntryListResponse } from "@/apis/transaction";
+import type { GetEntryListResponse } from "@/apis/entry";
 import type { Entry } from "@/types";
 
 type EntryListProps = {

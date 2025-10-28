@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import EntryList from "./entryList/EntryList";
 import InputBar from "./inputBar/InputBar";
 
-import { getEntryList, type GetEntryListResponse } from "@/apis/transaction";
+import { getEntryList, type GetEntryListResponse } from "@/apis/entry";
 
 export default function DocumentView() {
   const [entryList, setEntryList] = useState<
