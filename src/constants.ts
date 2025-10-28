@@ -1,6 +1,6 @@
-import type { TransactionType } from "./types";
+import type { EntryType } from "./types";
 
-export const CATEGORIES: Record<TransactionType, string[]> = {
+export const CATEGORIES: Record<EntryType, string[]> = {
   expense: [
     "식비",
     "교통비",

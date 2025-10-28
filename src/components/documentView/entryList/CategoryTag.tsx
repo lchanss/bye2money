@@ -1,4 +1,4 @@
-import Tag from "../common/Tag";
+import Tag from "../../common/Tag";
 
 type CategoryTagProps = {
   tag: Category;

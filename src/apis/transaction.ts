@@ -1,22 +1,22 @@
 import { getRequest, postRequest } from ".";
 
-import type { TransactionType } from "@/types";
+import type { EntryType } from "@/types";
 
 type GetPaymentMethodsResponse = string[];
 
-type PostTransactionRequest = {
+type PostEntryRequest = {
   date: string;
   amount: number;
   description: string;
   paymentMethod: string;
   category: string;
-  transactionType: TransactionType;
+  entryType: EntryType;
 };
 
 export const getPaymentMethods = () => {
   return getRequest<GetPaymentMethodsResponse>("/payment-methods");
 };
 
-export const createTransaction = (transaction: PostTransactionRequest) => {
-  return postRequest("/transactions", transaction);
+export const createEntry = (entry: PostEntryRequest) => {
+  return postRequest("/entry", entry);
 };

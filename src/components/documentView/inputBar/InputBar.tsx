@@ -6,50 +6,49 @@ import DateField from "./DateField";
 import DescriptionField from "./DescriptionField";
 import PaymentMethodField from "./PaymentMethodField";
 
-import { createTransaction, getPaymentMethods } from "@/apis/transaction";
+import { createEntry, getPaymentMethods } from "@/apis/transaction";
 import Button from "@/components/common/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";
-import type { Transaction } from "@/types";
+import type { Entry } from "@/types";
 import { formatDate } from "@/utils";
 
-const initialTransaction: Transaction = {
+const initialEntry: Entry = {
   date: formatDate(new Date()),
   amount: 0,
   description: "",
   paymentMethod: "",
   category: "",
-  transactionType: "expense",
+  entryType: "expense",
 };
 
 export default function InputBar() {
-  const [transaction, setTransaction] =
-    useState<Transaction>(initialTransaction);
-  const categories = CATEGORIES[transaction.transactionType];
+  const [entry, setEntry] = useState<Entry>(initialEntry);
+  const categories = CATEGORIES[entry.entryType];
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
 
   const toggleTransactionType = () => {
-    setTransaction((prev) => ({
+    setEntry((prev) => ({
       ...prev,
-      transactionType: prev.transactionType === "income" ? "expense" : "income",
+      entryType: prev.entryType === "income" ? "expense" : "income",
       paymentMethod: "",
     }));
   };
 
-  const handleTransactionChange = <K extends keyof Transaction>(
+  const handleTransactionChange = <K extends keyof Entry>(
     field: K,
-    value: Transaction[K],
+    value: Entry[K],
   ) => {
-    setTransaction((prev) => ({ ...prev, [field]: value }));
+    setEntry((prev) => ({ ...prev, [field]: value }));
   };
 
   const resetTransaction = () => {
-    setTransaction(initialTransaction);
+    setEntry(initialEntry);
   };
 
   const handleAddTransaction = async () => {
     try {
-      await createTransaction(transaction);
+      await createEntry(entry);
       resetTransaction();
       alert("거래 내역을 추가했습니다.");
     } catch (error) {
@@ -61,30 +60,30 @@ export default function InputBar() {
   const renderFields = () => {
     const fields = [
       <DateField
-        value={transaction.date}
+        value={entry.date}
         onChange={(newValue) => handleTransactionChange("date", newValue)}
       />,
       <AmountField
-        value={transaction.amount}
+        value={entry.amount}
         onChange={(newValue) => handleTransactionChange("amount", newValue)}
-        transactionType={transaction.transactionType}
+        transactionType={entry.entryType}
         toggleTransactionType={toggleTransactionType}
       />,
       <DescriptionField
-        value={transaction.description}
+        value={entry.description}
         onChange={(newValue) =>
           handleTransactionChange("description", newValue)
         }
       />,
       <PaymentMethodField
-        value={transaction.paymentMethod}
+        value={entry.paymentMethod}
         onChange={(newValue) =>
           handleTransactionChange("paymentMethod", newValue)
         }
         paymentMethods={paymentMethods}
       />,
       <CategoryField
-        value={transaction.category}
+        value={entry.category}
         onChange={(newValue) => handleTransactionChange("category", newValue)}
         categories={categories}
       />,
@@ -115,14 +114,14 @@ export default function InputBar() {
       {renderFields()}
       <Button
         showIcon
-        disabled={!isTransactionValid(transaction)}
+        disabled={!isTransactionValid(entry)}
         onClick={handleAddTransaction}
       />
     </div>
   );
 }
 
-const isTransactionValid = (transaction: Transaction) => {
+const isTransactionValid = (transaction: Entry) => {
   return (
     transaction.date !== "" &&
     transaction.paymentMethod !== "" &&

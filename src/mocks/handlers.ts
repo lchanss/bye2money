@@ -1,19 +1,19 @@
 import { http, HttpResponse, delay } from "msw";
 
-import type { TransactionType } from "@/types";
+import type { EntryType } from "@/types";
 
 type GetPaymentMethodsResponse = string[];
 
-type PostTransactionRequest = {
+type PostEntryRequest = {
   date: string;
   amount: number;
   description: string;
   paymentMethod: string;
   category: string;
-  transactionType: TransactionType;
+  entryType: EntryType;
 };
 
-type PostTransactionResponse = PostTransactionRequest & {
+type PostEntryResponse = PostEntryRequest & {
   id: number;
   createdAt: string;
 };
@@ -34,11 +34,11 @@ export const handlers = [
     return HttpResponse.json<GetPaymentMethodsResponse>(MOCK_PAYMENT_METHODS);
   }),
 
-  // POST /api/transactions
-  http.post("/api/transactions", async ({ request }) => {
+  // POST /api/entry
+  http.post("/api/entry", async ({ request }) => {
     await delay(500);
 
-    const transaction = (await request.json()) as PostTransactionRequest;
+    const transaction = (await request.json()) as PostEntryRequest;
 
     if (!transaction.date || !transaction.amount) {
       return HttpResponse.json(
@@ -47,13 +47,13 @@ export const handlers = [
       );
     }
 
-    const response: PostTransactionResponse = {
+    const response: PostEntryResponse = {
       id: Date.now(),
       ...transaction,
       createdAt: new Date().toISOString(),
     };
 
-    return HttpResponse.json<PostTransactionResponse>(response, {
+    return HttpResponse.json<PostEntryResponse>(response, {
       status: 201,
     });
   }),

@@ -1,12 +1,12 @@
-export type Transaction = {
+export type Entry = {
   date: string;
   amount: number;
   description: string;
   paymentMethod: string;
   category: string;
-  transactionType: TransactionType;
+  entryType: EntryType;
 };
 
-export type TransactionType = "income" | "expense";
+export type EntryType = "income" | "expense";
 
 export type ViewType = "documents" | "calendar" | "charts";
