@@ -1,5 +1,7 @@
 import Checkbox from "./components/common/Checkbox";
 
+import Tag from "./components/common/Tag";
+
 import Header from "@/components/header/Header";
 import InputBar from "@/components/inputBar/InputBar";
 
@@ -10,6 +12,7 @@ function App() {
       <main className="mt-[-40px] flex flex-col items-center">
         <InputBar />
         <Checkbox label="Checkbox Label" checked={false} onChange={() => {}} />
+        <Tag color="bg-colorchip-90" label="생활" />
       </main>
     </div>
   );
