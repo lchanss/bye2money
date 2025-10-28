@@ -8,3 +8,5 @@ export type Transaction = {
 };
 
 export type TransactionType = "income" | "expense";
+
+export type ViewType = "documents" | "calendar" | "charts";

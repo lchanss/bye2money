@@ -1,21 +1,20 @@
-import { useState } from "react";
-
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 import ChartIcon from "@/assets/icons/chart.svg?react";
 import DocIcon from "@/assets/icons/doc.svg?react";
+import { useViewContext } from "@/contexts/ViewContext";
+import type { ViewType } from "@/types";
 
 const VIEW_LIST: { type: ViewType; icon: React.ComponentType }[] = [
   { type: "documents", icon: DocIcon },
   { type: "calendar", icon: CalendarIcon },
   { type: "charts", icon: ChartIcon },
 ] as const;
-type ViewType = "documents" | "calendar" | "charts";
 
 export default function ViewSelector() {
-  const [selectedView, setSelectedView] = useState<ViewType>("documents");
+  const { view: currentView, setView: setCurrentView } = useViewContext();
 
   const handleViewChange = (view: ViewType) => {
-    setSelectedView(view);
+    setCurrentView(view);
   };
 
   return (
@@ -24,7 +23,7 @@ export default function ViewSelector() {
         <ViewButton
           key={view.type}
           icon={view.icon}
-          isSelected={selectedView === view.type}
+          isSelected={currentView === view.type}
           onClick={() => handleViewChange(view.type)}
         />
       ))}
