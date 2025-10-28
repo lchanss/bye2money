@@ -6,7 +6,7 @@
 
 - [ ] `Button` `variant`로 종류에 맞게 스타일 확장
 - [ ] `Dropdown` 옵션 컴포넌트로 받을 수 있도록 확장
-- [ ] `Badge` 배경색 prop으로 받아서 적용
+- [ ] `Tag` 배경색 prop으로 받아서 적용
 - [ ] `Checkbox` 구현
 
 ### 2. 헤더 및 내비게이션
