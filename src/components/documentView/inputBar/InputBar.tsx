@@ -110,7 +110,7 @@ export default function InputBar() {
   }, []);
 
   return (
-    <div className="bg-neutral-surface-default border-neutral-border-default flex h-20 gap-6 border px-6 py-4">
+    <div className="bg-neutral-surface-default border-neutral-border-default mb-8 flex h-20 gap-6 border px-6 py-4">
       {renderFields()}
       <Button
         showIcon
