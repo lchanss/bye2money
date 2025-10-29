@@ -1,3 +1,5 @@
+import EntryDailyGroup from "./EntryDailyGroup";
+
 import type { GetEntryListResponse } from "@/apis/entry";
 
 type EntryDailyGroupListProps = {
@@ -9,8 +11,9 @@ export default function EntryDailyGroupList({
 }: EntryDailyGroupListProps) {
   return (
     <div>
-      daily group list
-      <div></div>
+      {dailyGroups.map((group) => (
+        <EntryDailyGroup dailyGroup={group} key={group.date} />
+      ))}
     </div>
   );
 }

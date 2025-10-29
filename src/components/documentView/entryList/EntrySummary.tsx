@@ -16,7 +16,7 @@ export default function EntrySummary({
   const { totalCount, totalIncome, totalExpense } = summary;
 
   return (
-    <div className="mx-6 mb-10 flex items-center justify-between">
+    <div className="mb-10 flex items-center justify-between">
       <span>전체 내역 {totalCount}건</span>
       <div className="flex items-center gap-3">
         <Checkbox

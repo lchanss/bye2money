@@ -27,7 +27,7 @@ export default function EntryList({ entryList }: EntryListProps) {
   };
 
   return (
-    <div>
+    <div className="mx-6">
       <EntrySummary
         summary={filteredEntryList.summary}
         filter={filter}
