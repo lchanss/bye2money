@@ -5,7 +5,7 @@ import { useViewContext } from "@/contexts/ViewContext";
 import type { ViewType } from "@/types";
 
 const VIEW_LIST: { type: ViewType; icon: React.ComponentType }[] = [
-  { type: "documents", icon: DocIcon },
+  { type: "list", icon: DocIcon },
   { type: "calendar", icon: CalendarIcon },
   { type: "charts", icon: ChartIcon },
 ] as const;

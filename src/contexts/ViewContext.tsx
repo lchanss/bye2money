@@ -13,7 +13,7 @@ type ViewContextData = {
 };
 
 export const ViewContext = createContext<ViewContextData>({
-  view: "documents",
+  view: "list",
   setView: () => {
     throw new Error("ViewContext not provided");
   },

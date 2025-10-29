@@ -1,15 +1,15 @@
-import DailyGroupHeader from "./DailyGroupHeader";
+import DailyEntryGroupHeader from "./DailyEntryGroupHeader";
 
 import type { DailyGroup } from "@/types";
 
-type EntryDailyGroupProps = {
+type DailyEntryGroupProps = {
   dailyGroup: DailyGroup;
 };
 
-export default function EntryDailyGroup({ dailyGroup }: EntryDailyGroupProps) {
+export default function DailyEntryGroup({ dailyGroup }: DailyEntryGroupProps) {
   return (
     <div>
-      <DailyGroupHeader
+      <DailyEntryGroupHeader
         date={dailyGroup.date}
         income={dailyGroup.dailySummary.income}
         expense={dailyGroup.dailySummary.expense}

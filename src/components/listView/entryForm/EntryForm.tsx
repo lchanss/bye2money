@@ -22,7 +22,7 @@ const initialEntry: Entry = {
   entryType: "expense",
 };
 
-export default function InputBar() {
+export default function EntryForm() {
   const [entry, setEntry] = useState<Entry>(initialEntry);
   const categories = CATEGORIES[entry.entryType];
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
@@ -110,14 +110,14 @@ export default function InputBar() {
   }, []);
 
   return (
-    <div className="bg-neutral-surface-default border-neutral-border-default mb-8 flex h-20 gap-6 border px-6 py-4">
+    <form className="bg-neutral-surface-default border-neutral-border-default mb-8 flex h-20 gap-6 border px-6 py-4">
       {renderFields()}
       <Button
         showIcon
         disabled={!isTransactionValid(entry)}
         onClick={handleAddTransaction}
       />
-    </div>
+    </form>
   );
 }
 

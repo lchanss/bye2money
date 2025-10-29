@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import EntryList from "./entryList/EntryList";
-import InputBar from "./inputBar/InputBar";
+import EntryForm from "./entryForm/EntryForm";
+import EntryHistory from "./entryHistory/EntryHistory";
 
 import { getEntryList, type GetEntryListResponse } from "@/apis/entry";
 
-export default function DocumentView() {
+export default function ListView() {
   const [entryList, setEntryList] = useState<
     GetEntryListResponse | undefined
   >();
@@ -24,9 +24,9 @@ export default function DocumentView() {
 
   return (
     <div>
-      <InputBar />
+      <EntryForm />
       {entryList !== undefined ? (
-        <EntryList entryList={entryList} />
+        <EntryHistory entryList={entryList} />
       ) : (
         <Fallback />
       )}

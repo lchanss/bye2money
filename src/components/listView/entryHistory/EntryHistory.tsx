@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
 
-import EntryDailyGroupList from "./EntryDailyGroupList";
+import DailyEntryGroupList from "./DailyEntryGroupList";
 import EntrySummary from "./EntrySummary";
 
 import type { GetEntryListResponse } from "@/apis/entry";
 import type { EntryType } from "@/types";
 
-type EntryListProps = {
+type EntryHistoryProps = {
   entryList: GetEntryListResponse;
 };
 
 type FilterType = Record<EntryType, boolean>;
 
-export default function EntryList({ entryList }: EntryListProps) {
+export default function EntryHistory({ entryList }: EntryHistoryProps) {
   const [filter, setFilter] = useState<FilterType>({
     income: true,
     expense: true,
@@ -33,7 +33,7 @@ export default function EntryList({ entryList }: EntryListProps) {
         filter={filter}
         onChangeFilter={toggleFilter}
       />
-      <EntryDailyGroupList dailyGroups={filteredEntryList.dailyGroups} />
+      <DailyEntryGroupList dailyGroups={filteredEntryList.dailyGroups} />
     </div>
   );
 }

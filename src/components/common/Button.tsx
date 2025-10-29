@@ -34,6 +34,7 @@ export default function Button({
       className={`${sizeClass} flex items-center justify-center rounded-md ${text && "px-4 py-2"} hover:opacity-80 active:opacity-64 disabled:opacity-32 ${className}`}
       disabled={disabled}
       {...props}
+      type="button"
     >
       {showIcon && (
         <div
