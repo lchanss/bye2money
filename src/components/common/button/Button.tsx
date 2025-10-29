@@ -34,7 +34,7 @@ export default function Button({
         size,
         color,
         flexible,
-        className: `${text && "px-4 py-2"} ${className}`,
+        className,
       })}
       disabled={disabled}
       {...props}

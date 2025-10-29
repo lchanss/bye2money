@@ -18,6 +18,7 @@ export const ViewContext = createContext<ViewContextData>({
     throw new Error("ViewContext not provided");
   },
 });
+
 ViewContext.displayName = "View";
 
 export const useViewContext = () => useContext(ViewContext);

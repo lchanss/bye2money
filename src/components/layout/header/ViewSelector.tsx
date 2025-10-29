@@ -1,7 +1,7 @@
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 import ChartIcon from "@/assets/icons/chart.svg?react";
 import DocIcon from "@/assets/icons/doc.svg?react";
-import { useViewContext } from "@/contexts/ViewContext";
+import { useViewContext } from "@/contexts/view/ViewContext";
 import type { ViewType } from "@/types";
 
 const VIEW_LIST: { type: ViewType; icon: React.ComponentType }[] = [

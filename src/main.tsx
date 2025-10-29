@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 
 import "./index.css";
-import ViewProvider from "./contexts/ViewProvider.tsx";
+import ViewProvider from "./contexts/view/ViewProvider.tsx";
 
 async function enableMocking() {
   if (import.meta.env.MODE !== "development") {
