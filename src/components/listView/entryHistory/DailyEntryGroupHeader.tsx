@@ -1,4 +1,4 @@
-import { formatDateToKorean } from "@/utils";
+import { formatAmount, formatDateToKorean } from "@/utils";
 
 type DailyEntryGroupHeaderProps = {
   date: string;
@@ -33,7 +33,7 @@ function AmountLabel({ type, amount }: AmountLabelProps) {
   return (
     <div className="flex items-center gap-2">
       <span>{label}</span>
-      <span>{amount.toLocaleString()}원</span>
+      <span>{formatAmount(amount)}원</span>
     </div>
   );
 }

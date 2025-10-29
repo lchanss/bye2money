@@ -1,3 +1,5 @@
+import type { EntryType } from "./types";
+
 export const localeStringToNumber = (str: string) =>
   Number(str.replace(/,/g, ""));
 
@@ -17,4 +19,13 @@ export const formatDateToKorean = (dateString: string) => {
   const dayOfWeek = DAYS[date.getDay()];
 
   return `${month}월 ${day}일 ${dayOfWeek}요일`;
+};
+
+export const formatAmount = (amount: number) => {
+  return amount.toLocaleString("ko-KR");
+};
+
+export const formatAmountWithSign = (amount: number, entryType: EntryType) => {
+  const sign = entryType === "income" ? "" : "-";
+  return `${sign} ${amount.toLocaleString("ko-KR")}`;
 };

@@ -2,23 +2,23 @@ import { useRef, useEffect, useState } from "react";
 
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg?react";
 
-type DropdownProps = {
-  options: string[];
-  value?: string;
-  onChange?: (value: string) => void;
+type DropdownProps<T> = {
+  options: T[];
+  value: T | null;
+  onChange?: (value: T) => void;
   placeholder?: string;
   className?: string;
   menuClassName?: string;
 };
 
-export default function Dropdown({
+export default function Dropdown<T extends string>({
   options,
   value,
   onChange,
   placeholder = "선택하세요",
   className = "",
   menuClassName = "",
-}: DropdownProps) {
+}: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +42,7 @@ export default function Dropdown({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const handleSelect = (option: string) => {
+  const handleSelect = (option: T) => {
     onChange?.(option);
     closeDropdown();
   };

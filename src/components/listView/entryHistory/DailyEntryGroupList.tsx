@@ -10,7 +10,7 @@ export default function DailyEntryGroupList({
   dailyGroups,
 }: EntryDailyGroupListProps) {
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       {dailyGroups.map((group) => (
         <DailyEntryGroup dailyGroup={group} key={group.date} />
       ))}

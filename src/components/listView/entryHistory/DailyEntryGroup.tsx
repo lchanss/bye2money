@@ -1,4 +1,5 @@
 import DailyEntryGroupHeader from "./DailyEntryGroupHeader";
+import EntryList from "./EntryList";
 
 import type { DailyGroup } from "@/types";
 
@@ -14,6 +15,7 @@ export default function DailyEntryGroup({ dailyGroup }: DailyEntryGroupProps) {
         income={dailyGroup.dailySummary.income}
         expense={dailyGroup.dailySummary.expense}
       />
+      <EntryList entries={dailyGroup.entries} />
     </div>
   );
 }

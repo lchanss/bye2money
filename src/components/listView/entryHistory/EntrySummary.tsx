@@ -1,6 +1,7 @@
 import type { GetEntryListResponse } from "@/apis/entry";
 import Checkbox from "@/components/common/Checkbox";
 import type { EntryType } from "@/types";
+import { formatAmount } from "@/utils";
 
 type EntrySummaryProps = {
   summary: GetEntryListResponse["summary"];
@@ -21,12 +22,12 @@ export default function EntrySummary({
       <div className="flex items-center gap-3">
         <Checkbox
           checked={filter.income}
-          label={`수입 ${totalIncome.toLocaleString()}`}
+          label={`수입 ${formatAmount(totalIncome)}`}
           onChange={() => onChangeFilter("income")}
         />
         <Checkbox
           checked={filter.expense}
-          label={`지출 ${totalExpense.toLocaleString()}`}
+          label={`지출 ${formatAmount(totalExpense)}`}
           onChange={() => onChangeFilter("expense")}
         />
       </div>

@@ -1,20 +1,9 @@
-import Tag from "../../common/Tag";
+import Tag from "@/components/common/Tag";
+import type { Category } from "@/types";
 
 type CategoryTagProps = {
   tag: Category;
 };
-
-type Category =
-  | "생활"
-  | "쇼핑/뷰티"
-  | "의료/건강"
-  | "식비"
-  | "교통"
-  | "문화/여가"
-  | "미분류"
-  | "월급"
-  | "기타 수입"
-  | "용돈";
 
 const CATEGORY_COLOR_MAP: Record<Category, string> = {
   생활: "bg-colorchip-90",

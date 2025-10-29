@@ -39,6 +39,7 @@ type DailyGroup = {
 };
 
 type Entry = {
+  id: number;
   date: string;
   amount: number;
   description: string;

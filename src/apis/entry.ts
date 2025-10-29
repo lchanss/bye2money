@@ -1,10 +1,10 @@
 import { getRequest, postRequest } from ".";
 
-import type { DailyGroup, Entry, EntryType } from "@/types";
+import type { DailyGroup, EntryType } from "@/types";
 
 type GetPaymentMethodsResponse = string[];
 
-type PostEntryRequest = {
+export type PostEntryRequest = {
   date: string;
   amount: number;
   description: string;

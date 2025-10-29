@@ -5,7 +5,7 @@ import { ViewContext } from "./ViewContext";
 import type { ViewType } from "@/types";
 
 export default function ViewProvider({ children }: PropsWithChildren) {
-  const [view, setView] = useState<ViewType>("documents");
+  const [view, setView] = useState<ViewType>("list");
 
   return (
     <ViewContext.Provider value={{ view, setView }}>

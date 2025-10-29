@@ -6,28 +6,35 @@ import DateField from "./DateField";
 import DescriptionField from "./DescriptionField";
 import PaymentMethodField from "./PaymentMethodField";
 
-import { createEntry, getPaymentMethods } from "@/apis/entry";
+import {
+  createEntry,
+  getPaymentMethods,
+  type PostEntryRequest,
+} from "@/apis/entry";
 import Button from "@/components/common/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";
-import type { Entry } from "@/types";
+import type { Category, Entry } from "@/types";
 import { formatDate } from "@/utils";
 
-const initialEntry: Entry = {
+const initialEntry: EntryFormData = {
   date: formatDate(new Date()),
   amount: 0,
   description: "",
   paymentMethod: "",
-  category: "",
+  category: null,
   entryType: "expense",
 };
 
+export type EntryFormData = Omit<Entry, "id" | "category"> & {
+  category: Category | null;
+};
 export default function EntryForm() {
-  const [entry, setEntry] = useState<Entry>(initialEntry);
+  const [entry, setEntry] = useState<EntryFormData>(initialEntry);
   const categories = CATEGORIES[entry.entryType];
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
 
-  const toggleTransactionType = () => {
+  const toggleEntryType = () => {
     setEntry((prev) => ({
       ...prev,
       entryType: prev.entryType === "income" ? "expense" : "income",
@@ -35,24 +42,24 @@ export default function EntryForm() {
     }));
   };
 
-  const handleTransactionChange = <K extends keyof Entry>(
+  const handleEntryChange = <K extends keyof EntryFormData>(
     field: K,
-    value: Entry[K],
+    value: EntryFormData[K],
   ) => {
     setEntry((prev) => ({ ...prev, [field]: value }));
   };
 
-  const resetTransaction = () => {
+  const resetEntry = () => {
     setEntry(initialEntry);
   };
 
-  const handleAddTransaction = async () => {
+  const handleAddEntry = async () => {
     try {
-      await createEntry(entry);
-      resetTransaction();
+      await createEntry(entry as PostEntryRequest); // validation을 마쳤으므로 type assertion 사용
+      resetEntry();
       alert("거래 내역을 추가했습니다.");
     } catch (error) {
-      console.log("Failed to create transaction:", error);
+      console.log("Failed to create entry:", error);
       alert("거래 내역 추가에 실패했습니다.");
     }
   };
@@ -61,30 +68,26 @@ export default function EntryForm() {
     const fields = [
       <DateField
         value={entry.date}
-        onChange={(newValue) => handleTransactionChange("date", newValue)}
+        onChange={(newValue) => handleEntryChange("date", newValue)}
       />,
       <AmountField
         value={entry.amount}
-        onChange={(newValue) => handleTransactionChange("amount", newValue)}
-        transactionType={entry.entryType}
-        toggleTransactionType={toggleTransactionType}
+        onChange={(newValue) => handleEntryChange("amount", newValue)}
+        entryType={entry.entryType}
+        toggleEntryType={toggleEntryType}
       />,
       <DescriptionField
         value={entry.description}
-        onChange={(newValue) =>
-          handleTransactionChange("description", newValue)
-        }
+        onChange={(newValue) => handleEntryChange("description", newValue)}
       />,
       <PaymentMethodField
         value={entry.paymentMethod}
-        onChange={(newValue) =>
-          handleTransactionChange("paymentMethod", newValue)
-        }
+        onChange={(newValue) => handleEntryChange("paymentMethod", newValue)}
         paymentMethods={paymentMethods}
       />,
       <CategoryField
         value={entry.category}
-        onChange={(newValue) => handleTransactionChange("category", newValue)}
+        onChange={(newValue) => handleEntryChange("category", newValue)}
         categories={categories}
       />,
     ];
@@ -114,17 +117,18 @@ export default function EntryForm() {
       {renderFields()}
       <Button
         showIcon
-        disabled={!isTransactionValid(entry)}
-        onClick={handleAddTransaction}
+        disabled={!isEntryValid(entry)}
+        onClick={handleAddEntry}
       />
     </form>
   );
 }
 
-const isTransactionValid = (transaction: Entry) => {
+const isEntryValid = (entry: EntryFormData) => {
   return (
-    transaction.date !== "" &&
-    transaction.paymentMethod !== "" &&
-    transaction.category !== ""
+    entry.date !== "" &&
+    entry.description.trim() !== "" &&
+    entry.paymentMethod !== "" &&
+    entry.category !== null
   );
 };
