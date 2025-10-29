@@ -11,7 +11,7 @@ import {
   getPaymentMethods,
   type PostEntryRequest,
 } from "@/apis/entry";
-import Button from "@/components/common/Button";
+import Button from "@/components/common/button/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";
 import type { Category, Entry } from "@/types";
@@ -119,6 +119,7 @@ export default function EntryForm() {
         showIcon
         disabled={!isEntryValid(entry)}
         onClick={handleAddEntry}
+        size="large"
       />
     </form>
   );
