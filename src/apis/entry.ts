@@ -1,10 +1,19 @@
-import { deleteRequest, getRequest, postRequest } from ".";
+import { deleteRequest, getRequest, postRequest, putRequest } from ".";
 
 import type { DailyGroup, EntryType } from "@/types";
 
 type GetPaymentMethodsResponse = string[];
 
 export type PostEntryRequest = {
+  date: string;
+  amount: number;
+  description: string;
+  paymentMethod: string;
+  category: string;
+  entryType: EntryType;
+};
+
+export type PutEntryRequest = {
   date: string;
   amount: number;
   description: string;
@@ -34,6 +43,10 @@ export const createEntry = (entry: PostEntryRequest) => {
   return postRequest("/entry", entry);
 };
 
-export const deleteEntry = (entryId: number) => {
-  return deleteRequest(`/entry/${entryId}`);
+export const updateEntry = (id: number, entry: PutEntryRequest) => {
+  return putRequest(`/entry/${id}`, entry);
+};
+
+export const deleteEntry = (id: number) => {
+  return deleteRequest(`/entry/${id}`);
 };

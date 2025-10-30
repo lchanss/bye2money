@@ -20,6 +20,15 @@ type PostEntryResponse = PostEntryRequest & {
   createdAt: string;
 };
 
+type PutEntryRequest = {
+  date: string;
+  amount: number;
+  description: string;
+  paymentMethod: string;
+  category: string;
+  entryType: EntryType;
+};
+
 export type GetEntryListResponse = {
   summary: {
     totalIncome: number;
@@ -62,6 +71,13 @@ export const handlers = [
     await delay(500);
 
     return HttpResponse.json<GetPaymentMethodsResponse>(MOCK_PAYMENT_METHODS);
+  }),
+
+  // GET /api/entry
+  http.get("/api/entry", async () => {
+    await delay(500);
+
+    return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
   }),
 
   // POST /api/entry
@@ -147,11 +163,62 @@ export const handlers = [
     });
   }),
 
-  // GET /api/entry
-  http.get("/api/entry", async () => {
-    await delay(500);
+  // PUT /api/entry/:id
+  http.put("/api/entry/:id", async ({ params, request }) => {
+    const { id } = params;
+    const entryId = Number(id);
+    const updatedData = (await request.json()) as PutEntryRequest;
 
-    return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
+    // 해당 entry 찾아서 업데이트
+    let updatedEntry: Entry | null = null;
+
+    MOCK_ENTRY_LIST.dailyGroups = MOCK_ENTRY_LIST.dailyGroups.map((group) => ({
+      ...group,
+      entries: group.entries.map((entry) => {
+        if (entry.id === entryId) {
+          updatedEntry = { ...entry, ...updatedData, id: entryId };
+          return updatedEntry;
+        }
+        return entry;
+      }),
+    }));
+
+    if (!updatedEntry) {
+      return HttpResponse.json({ error: "Entry not found" }, { status: 404 });
+    }
+
+    // summary 재계산
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let totalCount = 0;
+
+    MOCK_ENTRY_LIST.dailyGroups.forEach((group) => {
+      group.entries.forEach((entry) => {
+        totalCount++;
+        if (entry.entryType === "income") {
+          totalIncome += entry.amount;
+        } else {
+          totalExpense += entry.amount;
+        }
+      });
+
+      group.dailySummary = {
+        income: group.entries
+          .filter((e) => e.entryType === "income")
+          .reduce((sum, e) => sum + e.amount, 0),
+        expense: group.entries
+          .filter((e) => e.entryType === "expense")
+          .reduce((sum, e) => sum + e.amount, 0),
+      };
+    });
+
+    MOCK_ENTRY_LIST.summary = {
+      totalIncome,
+      totalExpense,
+      totalCount,
+    };
+
+    return HttpResponse.json(updatedEntry);
   }),
 
   // DELETE /api/entry/:id

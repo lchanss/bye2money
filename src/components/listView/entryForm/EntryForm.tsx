@@ -31,7 +31,7 @@ export type EntryFormData = Omit<Entry, "id" | "category"> & {
 };
 
 type EntryFormProps = {
-  initialData?: Entry;
+  initialData?: EntryFormData;
   onSubmit: (data: EntryFormData, id?: string) => Promise<void>;
 };
 
