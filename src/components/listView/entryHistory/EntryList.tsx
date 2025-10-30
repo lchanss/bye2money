@@ -31,8 +31,22 @@ const AMOUNT_COLOR: Record<EntryType, string> = {
 };
 
 function EntryItem({ entry }: { entry: Entry }) {
+  const { selectedEntry, selectEntry } = useEntryContext();
+  const selected = selectedEntry?.id === entry.id;
+
+  const handleEntryClick = () => {
+    if (selected) {
+      selectEntry(null);
+    } else {
+      selectEntry(entry);
+    }
+  };
+
   return (
-    <li className="group hover:bg-neutral-surface-point flex">
+    <li
+      className={`group hover:bg-neutral-surface-point flex ${selected && "bg-neutral-surface-point"}`}
+      onClick={handleEntryClick}
+    >
       <CategoryTag tag={entry.category} />
       <div className="flex grow gap-4 px-4">
         <div className="flex w-100 items-center">{entry.description}</div>
@@ -54,11 +68,12 @@ type DeleteButtonProps = {
 
 function DeleteButton({ entry }: DeleteButtonProps) {
   const { openModal, closeModal } = useModalContext();
-  const { fetchEntryList } = useEntryContext();
+  const { fetchEntryList, selectEntry } = useEntryContext();
 
   const handleDeleteEntry = async () => {
     try {
       await deleteEntry(entry.id);
+      selectEntry(null);
       console.log("삭제 완료");
       await fetchEntryList();
       closeModal();

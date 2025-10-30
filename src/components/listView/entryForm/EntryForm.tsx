@@ -29,10 +29,19 @@ const initialEntry: EntryFormData = {
 export type EntryFormData = Omit<Entry, "id" | "category"> & {
   category: Category | null;
 };
-export default function EntryForm() {
-  const [entry, setEntry] = useState<EntryFormData>(initialEntry);
+
+type EntryFormProps = {
+  initialData?: Entry;
+  onSubmit: (data: EntryFormData, id?: string) => Promise<void>;
+};
+
+export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
+  const [entry, setEntry] = useState<EntryFormData>(
+    initialData || initialEntry,
+  );
   const categories = CATEGORIES[entry.entryType];
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleEntryType = () => {
     setEntry((prev) => ({
@@ -53,14 +62,18 @@ export default function EntryForm() {
     setEntry(initialEntry);
   };
 
-  const handleAddEntry = async () => {
+  const handleSubmit = async () => {
+    if (!isEntryValid(entry) || isSubmitting) return;
+
+    setIsSubmitting(true);
+
     try {
-      await createEntry(entry as PostEntryRequest); // validation을 마쳤으므로 type assertion 사용
+      await onSubmit(entry);
       resetEntry();
-      alert("거래 내역을 추가했습니다.");
     } catch (error) {
-      console.log("Failed to create entry:", error);
-      alert("거래 내역 추가에 실패했습니다.");
+      console.log("Failed to submit:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -118,7 +131,7 @@ export default function EntryForm() {
       <Button
         showIcon
         disabled={!isEntryValid(entry)}
-        onClick={handleAddEntry}
+        onClick={handleSubmit}
         size="large"
       />
     </form>

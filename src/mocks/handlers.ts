@@ -68,18 +68,77 @@ export const handlers = [
   http.post("/api/entry", async ({ request }) => {
     await delay(500);
 
-    const transaction = (await request.json()) as PostEntryRequest;
+    const newEntry = (await request.json()) as PostEntryRequest;
 
-    if (!transaction.date || !transaction.amount) {
+    if (!newEntry.date || !newEntry.amount) {
       return HttpResponse.json(
         { error: "필수 필드가 누락되었습니다" },
         { status: 400 },
       );
     }
 
-    const response: PostEntryResponse = {
+    // 새 entry 생성
+    const createdEntry: Entry = {
       id: Date.now(),
-      ...transaction,
+      ...newEntry,
+    };
+
+    // 날짜에서 일자만 추출 (YYYY-MM-DD)
+    const entryDate = newEntry.date.split("T")[0];
+
+    // 해당 날짜의 그룹 찾기
+    const existingGroupIndex = MOCK_ENTRY_LIST.dailyGroups.findIndex(
+      (group) => group.date === entryDate,
+    );
+
+    if (existingGroupIndex !== -1) {
+      // 기존 그룹이 있으면 해당 그룹에 추가
+      MOCK_ENTRY_LIST.dailyGroups[existingGroupIndex].entries.push(
+        createdEntry,
+      );
+
+      // 해당 그룹의 dailySummary 업데이트
+      const group = MOCK_ENTRY_LIST.dailyGroups[existingGroupIndex];
+      if (newEntry.entryType === "income") {
+        group.dailySummary.income += newEntry.amount;
+      } else {
+        group.dailySummary.expense += newEntry.amount;
+      }
+
+      // 날짜순으로 정렬 (최신순)
+      group.entries.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+    } else {
+      // 새 그룹 생성
+      const newGroup: DailyGroup = {
+        date: entryDate,
+        dailySummary: {
+          income: newEntry.entryType === "income" ? newEntry.amount : 0,
+          expense: newEntry.entryType === "expense" ? newEntry.amount : 0,
+        },
+        entries: [createdEntry],
+      };
+
+      MOCK_ENTRY_LIST.dailyGroups.push(newGroup);
+
+      // 날짜순으로 정렬 (최신순)
+      MOCK_ENTRY_LIST.dailyGroups.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+    }
+
+    // 전체 summary 업데이트
+    if (newEntry.entryType === "income") {
+      MOCK_ENTRY_LIST.summary.totalIncome += newEntry.amount;
+    } else {
+      MOCK_ENTRY_LIST.summary.totalExpense += newEntry.amount;
+    }
+    MOCK_ENTRY_LIST.summary.totalCount += 1;
+
+    const response: PostEntryResponse = {
+      id: createdEntry.id,
+      ...newEntry,
       createdAt: new Date().toISOString(),
     };
 

@@ -53,6 +53,7 @@ export default function Dropdown<T extends string>({
       <button
         className="text-semibold-12 flex w-full items-center justify-between gap-1"
         onClick={toggleDropdown}
+        type="button"
       >
         <span className={value ? "" : "text-neutral-text-weak"}>
           {displayText}
