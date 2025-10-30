@@ -2,7 +2,10 @@ import CategoryTag from "./CategoryTag";
 
 import DeleteEntryModalContent from "./DeleteEntryModal";
 
+import { deleteEntry } from "@/apis/entry";
+
 import Button from "@/components/common/button/Button";
+import { useEntryContext } from "@/contexts/entry/EntryContext";
 import { useModalContext } from "@/contexts/modal/ModalContext";
 
 import type { Entry, EntryType } from "@/types";
@@ -51,10 +54,17 @@ type DeleteButtonProps = {
 
 function DeleteButton({ entry }: DeleteButtonProps) {
   const { openModal, closeModal } = useModalContext();
+  const { fetchEntryList } = useEntryContext();
 
-  const handleDeleteEntry = () => {
-    console.log("삭제 완료");
-    closeModal();
+  const handleDeleteEntry = async () => {
+    try {
+      await deleteEntry(entry.id);
+      console.log("삭제 완료");
+      await fetchEntryList();
+      closeModal();
+    } catch (error) {
+      console.log("내역 삭제 실패:", error);
+    }
   };
 
   const handleButtonClick = () => {

@@ -1,35 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import EntryForm from "./entryForm/EntryForm";
 import EntryHistory from "./entryHistory/EntryHistory";
 
-import { getEntryList, type GetEntryListResponse } from "@/apis/entry";
+import { useEntryContext } from "@/contexts/entry/EntryContext";
 
 export default function ListView() {
-  const [entryList, setEntryList] = useState<
-    GetEntryListResponse | undefined
-  >();
+  const { entryList, fetchEntryList } = useEntryContext();
 
   useEffect(() => {
-    const fetchEntryList = async () => {
-      try {
-        const entryList = await getEntryList();
-        setEntryList(entryList);
-      } catch (error) {
-        console.log("Failed to fetch entry list:", error);
-      }
-    };
     fetchEntryList();
-  }, []);
+  }, [fetchEntryList]);
 
   return (
     <div>
       <EntryForm />
-      {entryList !== undefined ? (
-        <EntryHistory entryList={entryList} />
-      ) : (
-        <Fallback />
-      )}
+      {entryList ? <EntryHistory entryList={entryList} /> : <Fallback />}
     </div>
   );
 }

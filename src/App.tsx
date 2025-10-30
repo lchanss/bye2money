@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 
 import Layout from "./components/layout/Layout";
 import ListView from "./components/listView/ListView";
+import EntryProvider from "./contexts/entry/EntryProvider";
 import ModalProvider from "./contexts/modal/ModalProvider";
 import { useViewContext } from "./contexts/view/ViewContext";
 import ViewProvider from "./contexts/view/ViewProvider";
@@ -15,7 +16,9 @@ function Page() {
 function Providers({ children }: PropsWithChildren) {
   return (
     <ViewProvider>
-      <ModalProvider>{children}</ModalProvider>
+      <ModalProvider>
+        <EntryProvider>{children}</EntryProvider>
+      </ModalProvider>
     </ViewProvider>
   );
 }
