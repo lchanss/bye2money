@@ -14,14 +14,8 @@ export default function Modal({
   onClose,
   confirmText = "확인",
   cancelText = "취소",
-  showCancel = true,
-  children,
+  content,
 }: Props) {
-  const handleCancel = () => {
-    if (onCancel) onCancel();
-    onClose();
-  };
-
   // ESC키 눌러서 모달 닫기
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -52,20 +46,24 @@ export default function Modal({
   return (
     // backdrop
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="bg-grayscale-400/40 fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
       {/* 모달 내용 */}
       <div
-        className="w-fit"
+        className="bg-neutral-surface-default w-96 border"
         onClick={(e) => e.stopPropagation()} // 모달 내부 클릭은 닫히지 않게
       >
-        <section className="p-8">{children}</section>
+        <section className="p-8">{content}</section>
 
         {/* 버튼 영역 */}
-        <section className="flex">
-          {showCancel && (
-            <ModalActionButton text={cancelText} onClick={handleCancel} />
+        <section className="flex border-t">
+          {onCancel && (
+            <ModalActionButton
+              text={cancelText}
+              onClick={onCancel}
+              borderRight
+            />
           )}
           {onConfirm && (
             <ModalActionButton text={confirmText} onClick={onConfirm} />
@@ -79,13 +77,20 @@ export default function Modal({
 type ModalActionButtonProps = {
   text: string;
   onClick: () => void;
+  borderRight?: boolean;
 };
 
-function ModalActionButton({ text, onClick }: ModalActionButtonProps) {
+function ModalActionButton({
+  text,
+  onClick,
+  borderRight,
+}: ModalActionButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="text-semibold-16 flex items-center justify-center border"
+      className={`text-semibold-16 flex flex-1 items-center justify-center py-4 ${
+        borderRight && "border-r"
+      }`}
     >
       {text}
     </button>

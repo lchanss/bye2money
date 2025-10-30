@@ -27,5 +27,5 @@ export const formatAmount = (amount: number) => {
 
 export const formatAmountWithSign = (amount: number, entryType: EntryType) => {
   const sign = entryType === "income" ? "" : "-";
-  return `${sign} ${amount.toLocaleString("ko-KR")}`;
+  return `${sign}${amount.toLocaleString("ko-KR")}`;
 };

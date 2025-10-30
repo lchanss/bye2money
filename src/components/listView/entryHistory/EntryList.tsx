@@ -1,5 +1,10 @@
 import CategoryTag from "./CategoryTag";
 
+import DeleteEntryModalContent from "./DeleteEntryModal";
+
+import Button from "@/components/common/button/Button";
+import { useModalContext } from "@/contexts/modal/ModalContext";
+
 import type { Entry, EntryType } from "@/types";
 import { formatAmountWithSign } from "@/utils";
 
@@ -24,13 +29,52 @@ const AMOUNT_COLOR: Record<EntryType, string> = {
 
 function EntryItem({ entry }: { entry: Entry }) {
   return (
-    <li className="flex gap-4 [&>*]:flex [&>*]:items-center">
+    <li className="group hover:bg-neutral-surface-point flex">
       <CategoryTag tag={entry.category} />
-      <div className="grow">{entry.description}</div>
-      <div className="w-28">{entry.paymentMethod}</div>
-      <div className={`w-45 justify-end ${AMOUNT_COLOR[entry.entryType]}`}>
-        {formatAmountWithSign(entry.amount, entry.entryType)}원
+      <div className="flex grow gap-4 px-4">
+        <div className="flex w-100 items-center">{entry.description}</div>
+        <div className="flex w-28 items-center">{entry.paymentMethod}</div>
+        <div
+          className={`flex grow items-center justify-end ${AMOUNT_COLOR[entry.entryType]}`}
+        >
+          {formatAmountWithSign(entry.amount, entry.entryType)}원
+        </div>
+        <DeleteButton entry={entry} />
       </div>
     </li>
+  );
+}
+
+type DeleteButtonProps = {
+  entry: Entry;
+};
+
+function DeleteButton({ entry }: DeleteButtonProps) {
+  const { openModal, closeModal } = useModalContext();
+
+  const handleDeleteEntry = () => {
+    console.log("삭제 완료");
+    closeModal();
+  };
+
+  const handleButtonClick = () => {
+    openModal({
+      confirmText: "삭제",
+      onConfirm: handleDeleteEntry,
+      onCancel: closeModal,
+      content: <DeleteEntryModalContent entry={entry} />,
+    });
+  };
+
+  return (
+    <div className="hidden w-fit group-hover:flex">
+      <Button
+        text="삭제"
+        showIcon
+        size="small"
+        color="danger"
+        onClick={handleButtonClick}
+      />
+    </div>
   );
 }

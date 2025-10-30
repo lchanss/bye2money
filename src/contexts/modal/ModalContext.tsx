@@ -1,12 +1,13 @@
-import { createContext, useContext, type PropsWithChildren } from "react";
+import { createContext, useContext } from "react";
 
-export type ModalProps = PropsWithChildren<{
+export type ModalProps = {
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
   confirmText?: string;
   cancelText?: string;
   showCancel?: boolean;
-}>;
+  content: React.ReactNode;
+};
 
 type ModalContextData = {
   isOpen: boolean;
