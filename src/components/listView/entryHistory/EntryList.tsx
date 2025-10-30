@@ -98,7 +98,10 @@ function DeleteButton({ entry }: DeleteButtonProps) {
         showIcon
         size="small"
         color="danger"
-        onClick={handleButtonClick}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleButtonClick();
+        }}
       />
     </div>
   );
