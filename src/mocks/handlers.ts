@@ -88,9 +88,58 @@ export const handlers = [
     });
   }),
 
+  // GET /api/entry
   http.get("/api/entry", async () => {
     await delay(500);
 
     return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
+  }),
+
+  // DELETE /api/entry/:id
+  http.delete("/api/entry/:id", async ({ params }) => {
+    const { id } = params;
+    const entryId = Number(id);
+
+    // dailyGroups를 순회하며 해당 id의 entry 삭제
+    MOCK_ENTRY_LIST.dailyGroups = MOCK_ENTRY_LIST.dailyGroups
+      .map((group) => ({
+        ...group,
+        entries: group.entries.filter((entry) => entry.id !== entryId),
+      }))
+      .filter((group) => group.entries.length > 0); // 빈 그룹 제거
+
+    // summary 재계산
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let totalCount = 0;
+
+    MOCK_ENTRY_LIST.dailyGroups.forEach((group) => {
+      group.entries.forEach((entry) => {
+        totalCount++;
+        if (entry.entryType === "income") {
+          totalIncome += entry.amount;
+        } else {
+          totalExpense += entry.amount;
+        }
+      });
+
+      // dailySummary도 재계산
+      group.dailySummary = {
+        income: group.entries
+          .filter((e) => e.entryType === "income")
+          .reduce((sum, e) => sum + e.amount, 0),
+        expense: group.entries
+          .filter((e) => e.entryType === "expense")
+          .reduce((sum, e) => sum + e.amount, 0),
+      };
+    });
+
+    MOCK_ENTRY_LIST.summary = {
+      totalIncome,
+      totalExpense,
+      totalCount,
+    };
+
+    return new HttpResponse(null, { status: 204 });
   }),
 ];
