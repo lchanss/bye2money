@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { useRef, useEffect, useState } from "react";
 
 type DropdownProps = {
-  trigger: ReactNode;
-  children: ReactNode;
+  trigger: (isOpen: boolean) => ReactNode;
+  children: (close: () => void) => ReactNode;
   className?: string;
   bodyClassName?: string;
 };
@@ -37,15 +37,13 @@ export default function Dropdown({
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      {/* 트리거 영역 */}
-      <div onClick={toggleDropdown}>{trigger}</div>
+      <div onClick={toggleDropdown}>{trigger(isOpen)}</div>
 
-      {/* 드롭다운 메뉴 */}
       {isOpen && (
         <div
           className={`border-neutral-border-default absolute top-full right-0 left-0 z-10 max-h-60 overflow-auto border bg-white shadow-lg ${bodyClassName}`}
         >
-          {children}
+          {children(closeDropdown)}
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 import type { EntryFormData } from "./EntryForm";
 
-import SelectBox from "@/components/common/SelectBox";
 import LabeledField from "@/components/common/LabeledField";
+import SelectBox from "@/components/common/SelectBox";
 import type { Category } from "@/types";
 
 type CategoryFieldProps = {
