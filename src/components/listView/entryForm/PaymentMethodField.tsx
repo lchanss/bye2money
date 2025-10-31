@@ -1,5 +1,5 @@
-import Dropdown from "@/components/common/DropDown";
 import LabeledField from "@/components/common/LabeledField";
+import SelectBox from "@/components/common/SelectBox";
 
 type PaymentMethodFieldProps = {
   value: string;
@@ -14,7 +14,7 @@ export default function PaymentMethodField({
 }: PaymentMethodFieldProps) {
   return (
     <LabeledField label="결제수단" htmlFor="payment-method" width="w-[104px]">
-      <Dropdown
+      <SelectBox
         options={paymentMethods}
         value={value}
         onChange={onChange}

@@ -1,6 +1,6 @@
 import type { EntryFormData } from "./EntryForm";
 
-import Dropdown from "@/components/common/DropDown";
+import SelectBox from "@/components/common/SelectBox";
 import LabeledField from "@/components/common/LabeledField";
 import type { Category } from "@/types";
 
@@ -17,7 +17,7 @@ export default function CategoryField({
 }: CategoryFieldProps) {
   return (
     <LabeledField label="분류" htmlFor="category" width="w-[104px]">
-      <Dropdown
+      <SelectBox
         options={categories}
         value={value}
         onChange={onChange}
