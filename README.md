@@ -9,7 +9,7 @@
 - [x] 드롭다운 활용해서 `SelectBox` 별도 구현
 - [x] `Tag` 배경색 prop으로 받아서 적용
 - [x] `Checkbox` 구현
-- [ ] `TextInput` variant 사용
+- [x] `TextInput` variant 사용
 
 ### 2. 헤더 및 내비게이션
 

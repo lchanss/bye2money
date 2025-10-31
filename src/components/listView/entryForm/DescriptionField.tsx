@@ -1,5 +1,5 @@
 import LabeledField from "@/components/common/LabeledField";
-import TextInput from "@/components/common/TextInput";
+import TextInput from "@/components/common/textInput/TextInput";
 
 type DescriptionFieldProps = {
   value: string;

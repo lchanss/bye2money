@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Modal from "@/components/common/Modal";
-import TextInput from "@/components/common/TextInput";
+import TextInput from "@/components/common/textInput/TextInput";
 
 type AddPaymentMethodModalProps = {
   onConfirm: (method: string) => void;

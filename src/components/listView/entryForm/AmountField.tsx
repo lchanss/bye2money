@@ -1,7 +1,7 @@
 import MinusIcon from "@/assets/icons/minus.svg?react";
 import PlusIcon from "@/assets/icons/plus.svg?react";
 import LabeledField from "@/components/common/LabeledField";
-import TextInput from "@/components/common/TextInput";
+import TextInput from "@/components/common/textInput/TextInput";
 import type { EntryType } from "@/types";
 import { formatAmount, localeStringToNumber } from "@/utils";
 
