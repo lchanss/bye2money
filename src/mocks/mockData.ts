@@ -1,4 +1,16 @@
-import type { GetEntryListResponse } from "./handlers";
+import type {
+  GetEntryListResponse,
+  GetPaymentMethodListResponse,
+} from "./handlers";
+
+export const MOCK_PAYMENT_METHODS: GetPaymentMethodListResponse = [
+  "신용카드",
+  "체크카드",
+  "계좌이체",
+  "현금",
+  "모바일페이",
+  "d",
+];
 
 export const MOCK_ENTRY_LIST: GetEntryListResponse = {
   summary: {

@@ -2,8 +2,6 @@ import { deleteRequest, getRequest, postRequest, putRequest } from ".";
 
 import type { DailyGroup, EntryType } from "@/types";
 
-type GetPaymentMethodsResponse = string[];
-
 export type PostEntryRequest = {
   date: string;
   amount: number;
@@ -29,10 +27,6 @@ export type GetEntryListResponse = {
     totalCount: number;
   };
   dailyGroups: DailyGroup[];
-};
-
-export const getPaymentMethods = () => {
-  return getRequest<GetPaymentMethodsResponse>("/payment-methods");
 };
 
 export const getEntryList = () => {

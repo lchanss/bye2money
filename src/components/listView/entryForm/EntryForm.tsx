@@ -7,10 +7,9 @@ import DescriptionField from "./DescriptionField";
 import PaymentMethodField from "./PaymentMethodField";
 
 import {
-  createEntry,
-  getPaymentMethods,
-  type PostEntryRequest,
-} from "@/apis/entry";
+  deletePaymentMethod,
+  getPaymentMethodList,
+} from "@/apis/paymentMethod";
 import Button from "@/components/common/button/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";
@@ -77,6 +76,37 @@ export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
     }
   };
 
+  const handleDeletePaymentMethod = async (method: string) => {
+    try {
+      await deletePaymentMethod(method);
+
+      // 로컬 상태에서 삭제
+      setPaymentMethods((prev) => prev.filter((m) => m !== method));
+
+      // 현재 선택된 method가 삭제된 거라면 초기화
+      if (entry.paymentMethod === method) {
+        setEntry((prev) => ({ ...prev, paymentMethod: "" }));
+      }
+    } catch (error) {
+      console.log("Failed to delete payment method:", error);
+    }
+  };
+
+  const handleAddPaymentMethod = async () => {
+    const newMethod = prompt("새로운 결제수단을 입력하세요:");
+    if (!newMethod?.trim()) return;
+
+    try {
+      // TODO: 실제 API 호출 추가
+      // await addPaymentMethod(newMethod);
+
+      // 로컬 상태에 추가
+      setPaymentMethods((prev) => [...prev, newMethod]);
+    } catch (error) {
+      console.log("Failed to add payment method:", error);
+    }
+  };
+
   const renderFields = () => {
     const fields = [
       <DateField
@@ -94,9 +124,11 @@ export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
         onChange={(newValue) => handleEntryChange("description", newValue)}
       />,
       <PaymentMethodField
-        value={entry.paymentMethod}
-        onChange={(newValue) => handleEntryChange("paymentMethod", newValue)}
-        paymentMethods={paymentMethods}
+        methods={paymentMethods}
+        selectedMethod={entry.paymentMethod}
+        onSelect={(newValue) => handleEntryChange("paymentMethod", newValue)}
+        onDelete={handleDeletePaymentMethod}
+        onAdd={handleAddPaymentMethod}
       />,
       <CategoryField
         value={entry.category}
@@ -116,7 +148,7 @@ export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
   useEffect(() => {
     const fetchPaymentMethods = async () => {
       try {
-        const methods = await getPaymentMethods();
+        const methods = await getPaymentMethodList();
         setPaymentMethods(methods);
       } catch (error) {
         console.log("Failed to fetch payment methods:", error);

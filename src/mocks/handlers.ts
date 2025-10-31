@@ -1,10 +1,10 @@
 import { http, HttpResponse, delay } from "msw";
 
-import { MOCK_ENTRY_LIST } from "./mockData";
+import { MOCK_ENTRY_LIST, MOCK_PAYMENT_METHODS } from "./mockData";
 
 import type { EntryType } from "@/types";
 
-type GetPaymentMethodsResponse = string[];
+export type GetPaymentMethodListResponse = string[];
 
 type PostEntryRequest = {
   date: string;
@@ -57,20 +57,35 @@ type Entry = {
   entryType: EntryType;
 };
 
-const MOCK_PAYMENT_METHODS: GetPaymentMethodsResponse = [
-  "신용카드",
-  "체크카드",
-  "계좌이체",
-  "현금",
-  "모바일페이",
-];
-
 export const handlers = [
-  // GET /api/payment-methods
-  http.get("/api/payment-methods", async () => {
+  // GET /api/payment-method
+  http.get("/api/payment-method", async () => {
     await delay(500);
 
-    return HttpResponse.json<GetPaymentMethodsResponse>(MOCK_PAYMENT_METHODS);
+    return HttpResponse.json<GetPaymentMethodListResponse>(
+      MOCK_PAYMENT_METHODS,
+    );
+  }),
+
+  // DELETE /api/payment-method/:method
+  http.delete("/api/payment-method/:method", async ({ params }) => {
+    await delay(500);
+
+    const { method } = params;
+    const decodedMethod = decodeURIComponent(method as string);
+
+    const index = MOCK_PAYMENT_METHODS.indexOf(decodedMethod);
+
+    if (index === -1) {
+      return HttpResponse.json(
+        { error: "결제수단을 찾을 수 없습니다" },
+        { status: 404 },
+      );
+    }
+
+    MOCK_PAYMENT_METHODS.splice(index, 1);
+
+    return new HttpResponse(null, { status: 204 });
   }),
 
   // GET /api/entry
