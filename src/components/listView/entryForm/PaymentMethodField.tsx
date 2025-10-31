@@ -109,14 +109,16 @@ function PaymentMethodItem({
 
   return (
     <li
-      className="text-semibold-12 hover:bg-neutral-surface-point flex cursor-pointer items-center justify-between px-4 py-2"
+      className="text-light-12 hover:bg-neutral-surface-point cursor-pointer px-6"
       onClick={handleSelect}
     >
-      <span>{method}</span>
-      <button className="ml-2 text-lg" onClick={handleDelete}>
-        {/* TODO: 아이콘 컴포넌트화, 클래스로 색상 지정할 수 있도록 */}
-        <ClosedIcon width={16} height={16} stroke="#e93b5a" />
-      </button>
+      <div className="flex items-center justify-between border-b py-4">
+        <span>{method}</span>
+        <button className="ml-2 text-lg" onClick={handleDelete}>
+          {/* TODO: 아이콘 컴포넌트화, 클래스로 색상 지정할 수 있도록 */}
+          <ClosedIcon width={24} height={24} stroke="#e93b5a" />
+        </button>
+      </div>
     </li>
   );
 }
@@ -137,7 +139,7 @@ function AddPaymentMethodButton({
 
   return (
     <button
-      className="text-semibold-12 hover:bg-neutral-surface-point border-neutral-border-default w-full border-t px-4 py-2"
+      className="text-semibold-12 hover:bg-neutral-surface-point w-full px-6 py-4"
       onClick={handleAdd}
     >
       추가하기

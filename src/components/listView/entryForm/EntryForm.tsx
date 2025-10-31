@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 
+import AddPaymentMethodModal from "./AddPaymentMethodModal";
 import AmountField from "./AmountField";
 import CategoryField from "./CategoryField";
 import DateField from "./DateField";
@@ -7,12 +8,14 @@ import DescriptionField from "./DescriptionField";
 import PaymentMethodField from "./PaymentMethodField";
 
 import {
+  createPaymentMethod,
   deletePaymentMethod,
   getPaymentMethodList,
 } from "@/apis/paymentMethod";
 import Button from "@/components/common/button/Button";
 import Divider from "@/components/common/Divider";
 import { CATEGORIES } from "@/constants";
+import { useModalContext } from "@/contexts/modal/ModalContext";
 import type { Category, Entry } from "@/types";
 import { formatDate } from "@/utils";
 
@@ -41,6 +44,7 @@ export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
   const categories = CATEGORIES[entry.entryType];
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { openModal, closeModal } = useModalContext();
 
   const toggleEntryType = () => {
     setEntry((prev) => ({
@@ -92,19 +96,23 @@ export default function EntryForm({ initialData, onSubmit }: EntryFormProps) {
     }
   };
 
-  const handleAddPaymentMethod = async () => {
-    const newMethod = prompt("새로운 결제수단을 입력하세요:");
-    if (!newMethod?.trim()) return;
-
+  const handleConfirmAddPaymentMethod = async (method: string) => {
     try {
-      // TODO: 실제 API 호출 추가
-      // await addPaymentMethod(newMethod);
-
-      // 로컬 상태에 추가
-      setPaymentMethods((prev) => [...prev, newMethod]);
+      await createPaymentMethod(method);
+      setPaymentMethods((prev) => [...prev, method]);
+      closeModal();
     } catch (error) {
       console.log("Failed to add payment method:", error);
     }
+  };
+
+  const handleAddPaymentMethod = () => {
+    openModal(
+      <AddPaymentMethodModal
+        onConfirm={handleConfirmAddPaymentMethod}
+        onCancel={closeModal}
+      />,
+    );
   };
 
   const renderFields = () => {

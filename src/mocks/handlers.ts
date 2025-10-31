@@ -67,6 +67,32 @@ export const handlers = [
     );
   }),
 
+  // POST /api/payment-method
+  http.post("/api/payment-method", async ({ request }) => {
+    await delay(500);
+
+    const { method } = (await request.json()) as { method: string };
+
+    if (!method || method.trim() === "") {
+      return HttpResponse.json(
+        { error: "결제수단 이름이 필요합니다" },
+        { status: 400 },
+      );
+    }
+
+    // 중복 체크
+    if (MOCK_PAYMENT_METHODS.includes(method)) {
+      return HttpResponse.json(
+        { error: "이미 존재하는 결제수단입니다" },
+        { status: 409 },
+      );
+    }
+
+    MOCK_PAYMENT_METHODS.push(method);
+
+    return HttpResponse.json({ method }, { status: 201 });
+  }),
+
   // DELETE /api/payment-method/:method
   http.delete("/api/payment-method/:method", async ({ params }) => {
     await delay(500);
