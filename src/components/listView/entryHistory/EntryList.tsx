@@ -1,6 +1,5 @@
 import CategoryTag from "./CategoryTag";
-
-import DeleteEntryModalContent from "./DeleteEntryModal";
+import DeleteEntryModal from "./DeleteEntryModal";
 
 import { deleteEntry } from "@/apis/entry";
 
@@ -83,12 +82,13 @@ function DeleteButton({ entry }: DeleteButtonProps) {
   };
 
   const handleButtonClick = () => {
-    openModal({
-      confirmText: "삭제",
-      onConfirm: handleDeleteEntry,
-      onCancel: closeModal,
-      content: <DeleteEntryModalContent entry={entry} />,
-    });
+    openModal(
+      <DeleteEntryModal
+        entry={entry}
+        onConfirm={handleDeleteEntry}
+        onCancel={closeModal}
+      />,
+    );
   };
 
   return (

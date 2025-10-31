@@ -41,7 +41,7 @@ export default function Dropdown({
 
       {isOpen && (
         <div
-          className={`border-neutral-border-default absolute top-full right-0 left-0 z-10 max-h-60 overflow-auto border bg-white shadow-lg ${bodyClassName}`}
+          className={`border-neutral-border-default absolute top-full right-0 left-0 z-10 max-h-72 overflow-auto border bg-white shadow-lg ${bodyClassName}`}
         >
           {children(closeDropdown)}
         </div>

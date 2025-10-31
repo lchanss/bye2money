@@ -88,7 +88,7 @@ function SelectBoxItem<T extends string>({
 }: SelectBoxItemProps<T>) {
   return (
     <li
-      className="text-semibold-12 hover:bg-neutral-surface-point cursor-pointer px-4 py-2"
+      className="text-light-12 hover:bg-neutral-surface-point cursor-pointer px-4 py-2"
       onClick={onClick}
     >
       {option}

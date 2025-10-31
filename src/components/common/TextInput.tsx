@@ -21,7 +21,7 @@ export default function TextInput({
       ? "border border-danger-border-default bg-white"
       : disabled
         ? "bg-neutral-surface-weak text-neutral-text-weak cursor-default"
-        : "bg-neutral-surface-point border border-transparent focus:border-neutral-border-default";
+        : "bg-neutral-surface-point border border-transparent";
 
   return (
     <input
