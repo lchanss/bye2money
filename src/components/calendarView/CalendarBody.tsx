@@ -1,17 +1,16 @@
 import { useMemo } from "react";
 
-import type { DailyGroup } from "@/types";
-import { formatAmount, formatAmountWithSign, formatDate } from "@/utils";
+import DateCell from "./DateCell";
+
+import type { DailyGroup, DateInfo } from "@/types";
+import { formatDate } from "@/utils";
 
 type CalendarBodyProps = {
   date: Date;
   dailyGroups: DailyGroup[];
 };
 
-type DateInfo = {
-  date: Date;
-  isCurrentMonth: boolean;
-};
+const today = new Date();
 
 export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
   const weeks = generateCalendarDates(date);
@@ -40,53 +39,12 @@ export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
                 key={dateKey}
                 dateInfo={dateInfo}
                 dailySummary={dailyGroup?.dailySummary}
+                isToday={dateInfo.date.toDateString() === today.toDateString()}
               />
             );
           })}
         </div>
       ))}
-    </div>
-  );
-}
-
-type DateCellProps = {
-  dateInfo: DateInfo;
-  dailySummary?: DailyGroup["dailySummary"];
-};
-
-function DateCell({ dateInfo, dailySummary }: DateCellProps) {
-  const dailyTotal = dailySummary?.income
-    ? dailySummary.income - dailySummary.expense
-    : 0;
-
-  return (
-    <div
-      className={`bg-neutral-surface-default flex h-30 flex-1 flex-col gap-4 p-2 ${
-        !dateInfo.isCurrentMonth && "text-neutral-text-weak"
-      }`}
-    >
-      <section className="flex-1">
-        {dailySummary && (
-          <>
-            {dailySummary.income ? (
-              <p className="text-brand-text-income">
-                {formatAmount(dailySummary.income)}
-              </p>
-            ) : null}
-            {dailySummary.expense ? (
-              <p className="text-brand-text-expense">
-                {formatAmountWithSign(dailySummary.expense, "expense")}
-              </p>
-            ) : null}
-            {dailyTotal ? (
-              <p className="text-neutral-text-default">
-                {formatAmount(dailyTotal)}
-              </p>
-            ) : null}
-          </>
-        )}
-      </section>
-      <div className="text-serif-14 text-right">{dateInfo.date.getDate()}</div>
     </div>
   );
 }

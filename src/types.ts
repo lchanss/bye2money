@@ -32,3 +32,8 @@ export type Category =
   | "월급"
   | "기타 수입"
   | "용돈";
+
+export type DateInfo = {
+  date: Date;
+  isCurrentMonth: boolean;
+};
