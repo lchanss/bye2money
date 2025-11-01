@@ -20,7 +20,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
   },
   dailyGroups: [
     {
-      date: "2024-08-14",
+      date: "2025-11-14",
       dailySummary: {
         income: 0,
         expense: 56240,
@@ -28,7 +28,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       entries: [
         {
           id: 1,
-          date: "2024-08-14T05:23:00",
+          date: "2025-11-14T05:23:00",
           amount: 10900,
           description: "스트리밍 서비스 정기 결제",
           paymentMethod: "현대카드",
@@ -37,7 +37,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
         },
         {
           id: 2,
-          date: "2024-08-14T00:15:00",
+          date: "2025-11-14T00:15:00",
           amount: 45340,
           description: "우월 교통비 결제",
           paymentMethod: "현대카드",
@@ -47,7 +47,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       ],
     },
     {
-      date: "2024-08-13",
+      date: "2025-11-13",
       dailySummary: {
         income: 0,
         expense: 10000,
@@ -55,7 +55,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       entries: [
         {
           id: 3,
-          date: "2024-08-13T09:30:00",
+          date: "2025-11-13T09:30:00",
           amount: 10000,
           description: "온라인 세미나 신청",
           paymentMethod: "현대카드",
@@ -65,7 +65,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       ],
     },
     {
-      date: "2024-08-10",
+      date: "2025-11-10",
       dailySummary: {
         income: 2010580,
         expense: 9500,
@@ -73,7 +73,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       entries: [
         {
           id: 4,
-          date: "2024-08-10T14:20:00",
+          date: "2025-11-10T14:20:00",
           amount: 9500,
           description: "전자금융수수료 감면",
           paymentMethod: "현대카드",
@@ -82,9 +82,9 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
         },
         {
           id: 5,
-          date: "2024-08-10T09:00:00",
+          date: "2025-11-10T09:00:00",
           amount: 2010580,
-          description: "8월 급여",
+          description: "11월 급여",
           paymentMethod: "현금",
           category: "월급",
           entryType: "income",
@@ -92,7 +92,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       ],
     },
     {
-      date: "2024-08-09",
+      date: "2025-11-09",
       dailySummary: {
         income: 0,
         expense: 690040,
@@ -100,7 +100,7 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
       entries: [
         {
           id: 6,
-          date: "2024-08-09T16:45:00",
+          date: "2025-11-09T16:45:00",
           amount: 19140,
           description: "두유 4개",
           paymentMethod: "현대카드",
@@ -109,16 +109,16 @@ export const MOCK_ENTRY_LIST: GetEntryListResponse = {
         },
         {
           id: 7,
-          date: "2024-08-09T10:30:00",
+          date: "2025-11-09T10:30:00",
           amount: 500000,
-          description: "8월 월세",
+          description: "11월 월세",
           paymentMethod: "현대카드",
           category: "생활",
           entryType: "expense",
         },
         {
           id: 8,
-          date: "2024-08-09T10:20:00",
+          date: "2025-11-09T10:20:00",
           amount: 170900,
           description: "건강보험료",
           paymentMethod: "계좌이체",

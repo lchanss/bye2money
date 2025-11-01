@@ -115,10 +115,47 @@ export const handlers = [
   }),
 
   // GET /api/entry
-  http.get("/api/entry", async () => {
+  http.get("/api/entry", async ({ request }) => {
     await delay(500);
 
-    return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
+    const url = new URL(request.url);
+    const year = Number(url.searchParams.get("year"));
+    const month = Number(url.searchParams.get("month"));
+
+    // 파라미터가 없으면 전체 데이터 반환
+    if (!year || !month) {
+      return HttpResponse.json<GetEntryListResponse>(MOCK_ENTRY_LIST);
+    }
+
+    // 해당 year-month에 해당하는 데이터만 필터링
+    const filteredDailyGroups = MOCK_ENTRY_LIST.dailyGroups.filter((group) => {
+      const groupDate = new Date(group.date);
+      return (
+        groupDate.getFullYear() === year && groupDate.getMonth() + 1 === month
+      );
+    });
+
+    // 필터링된 데이터의 summary 재계산
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let totalCount = 0;
+
+    filteredDailyGroups.forEach((group) => {
+      totalIncome += group.dailySummary.income;
+      totalExpense += group.dailySummary.expense;
+      totalCount += group.entries.length;
+    });
+
+    const filteredResponse: GetEntryListResponse = {
+      summary: {
+        totalIncome,
+        totalExpense,
+        totalCount,
+      },
+      dailyGroups: filteredDailyGroups,
+    };
+
+    return HttpResponse.json<GetEntryListResponse>(filteredResponse);
   }),
 
   // POST /api/entry

@@ -29,8 +29,10 @@ export type GetEntryListResponse = {
   dailyGroups: DailyGroup[];
 };
 
-export const getEntryList = () => {
-  return getRequest<GetEntryListResponse>("/entry");
+export const getEntryList = (params: { year: number; month: number }) => {
+  return getRequest<GetEntryListResponse>(
+    `/entry?year=${params.year}&month=${params.month}`,
+  );
 };
 
 export const createEntry = (entry: PostEntryRequest) => {

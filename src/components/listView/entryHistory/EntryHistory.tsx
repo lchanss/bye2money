@@ -4,6 +4,7 @@ import DailyEntryGroupList from "./DailyEntryGroupList";
 import EntrySummary from "./EntrySummary";
 
 import type { GetEntryListResponse } from "@/apis/entry";
+import Fallback from "@/components/common/Fallback";
 import type { EntryType } from "@/types";
 
 type EntryHistoryProps = {
@@ -33,7 +34,11 @@ export default function EntryHistory({ entryList }: EntryHistoryProps) {
         filter={filter}
         onChangeFilter={toggleFilter}
       />
-      <DailyEntryGroupList dailyGroups={filteredEntryList.dailyGroups} />
+      {filteredEntryList.dailyGroups.length === 0 ? (
+        <Fallback message="거래 내역이 없습니다. 거래 내역을 추가해보세요!" />
+      ) : (
+        <DailyEntryGroupList dailyGroups={filteredEntryList.dailyGroups} />
+      )}
     </div>
   );
 }

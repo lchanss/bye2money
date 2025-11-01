@@ -67,14 +67,14 @@ type DeleteButtonProps = {
 
 function DeleteButton({ entry }: DeleteButtonProps) {
   const { openModal, closeModal } = useModalContext();
-  const { fetchEntryList, selectEntry } = useEntryContext();
+  const { refetchEntryList, selectEntry } = useEntryContext();
 
   const handleDeleteEntry = async () => {
     try {
       await deleteEntry(entry.id);
       selectEntry(null);
       console.log("삭제 완료");
-      await fetchEntryList();
+      await refetchEntryList();
       closeModal();
     } catch (error) {
       console.log("내역 삭제 실패:", error);

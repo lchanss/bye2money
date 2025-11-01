@@ -5,14 +5,14 @@ import type { Entry } from "@/types";
 
 type EntryContextData = {
   entryList: GetEntryListResponse | null;
-  fetchEntryList: () => Promise<void>;
+  refetchEntryList: () => Promise<void>;
   selectedEntry: Entry | null;
   selectEntry: (entry: Entry | null) => void;
 };
 
 export const EntryContext = createContext<EntryContextData>({
   entryList: null,
-  fetchEntryList: async () => {
+  refetchEntryList: async () => {
     throw new Error("EntryContext not provided");
   },
   selectedEntry: null,
