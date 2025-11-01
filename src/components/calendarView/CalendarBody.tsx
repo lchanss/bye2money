@@ -4,7 +4,7 @@ import type { DailyGroup } from "@/types";
 import { formatAmount, formatAmountWithSign, formatDate } from "@/utils";
 
 type CalendarBodyProps = {
-  date: Date; // 해당 월의 첫날 (예: 2025-08-01)
+  date: Date;
   dailyGroups: DailyGroup[];
 };
 
@@ -93,9 +93,10 @@ function DateCell({ dateInfo, dailySummary }: DateCellProps) {
 
 const DAYS_PER_WEEK = 7;
 
-const generateCalendarDates = (firstDayOfMonth: Date): DateInfo[][] => {
-  const year = firstDayOfMonth.getFullYear();
-  const month = firstDayOfMonth.getMonth(); // 0-11
+const generateCalendarDates = (currentDate: Date): DateInfo[][] => {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth(); // 0-11
+  const firstDayOfMonth = new Date(year, month, 1);
 
   // 1. 해당 월의 첫날이 무슨 요일인지 (0=일요일)
   const firstDayOfWeek = firstDayOfMonth.getDay();

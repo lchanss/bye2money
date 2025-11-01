@@ -3,6 +3,7 @@ import type { PropsWithChildren, ReactNode } from "react";
 import CalendarView from "./components/calendarView/CalendarView";
 import Layout from "./components/layout/Layout";
 import ListView from "./components/listView/ListView";
+import DateProvider from "./contexts/date/DateProvider";
 import EntryProvider from "./contexts/entry/EntryProvider";
 import ModalProvider from "./contexts/modal/ModalProvider";
 import { useViewContext } from "./contexts/view/ViewContext";
@@ -23,11 +24,13 @@ function Page() {
 
 function Providers({ children }: PropsWithChildren) {
   return (
-    <ViewProvider>
-      <ModalProvider>
-        <EntryProvider>{children}</EntryProvider>
-      </ModalProvider>
-    </ViewProvider>
+    <DateProvider>
+      <ViewProvider>
+        <ModalProvider>
+          <EntryProvider>{children}</EntryProvider>
+        </ModalProvider>
+      </ViewProvider>
+    </DateProvider>
   );
 }
 

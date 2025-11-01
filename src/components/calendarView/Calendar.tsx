@@ -5,13 +5,14 @@ import type { DailyGroup } from "@/types";
 
 type CalendarProps = {
   dailyGroups: DailyGroup[];
+  date: Date;
 };
 
-export default function Calendar({ dailyGroups }: CalendarProps) {
+export default function Calendar({ dailyGroups, date }: CalendarProps) {
   return (
     <section className="border-neutral-border-default divide-y border">
       <CalendarHeader />
-      <CalendarBody date={new Date("2024-08-01")} dailyGroups={dailyGroups} />
+      <CalendarBody date={date} dailyGroups={dailyGroups} />
     </section>
   );
 }

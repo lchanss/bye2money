@@ -27,7 +27,7 @@ type LabeledAmountProps = {
 
 function LabeledAmount({ label, amount }: LabeledAmountProps) {
   return (
-    <div>
+    <div className="text-serif-14">
       <span className="mr-2">{label}</span>
       <span>{formatAmount(amount)}원</span>
     </div>

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import EntryForm, { type EntryFormData } from "./entryForm/EntryForm";
 import EntryHistory from "./entryHistory/EntryHistory";
 
@@ -51,10 +49,6 @@ export default function ListView() {
       await handleAddEntry(newEntry);
     }
   };
-
-  useEffect(() => {
-    fetchEntryList();
-  }, [fetchEntryList]);
 
   return (
     <div>
