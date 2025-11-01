@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import EntryForm, { type EntryFormData } from "./entryForm/EntryForm";
 import EntryHistory from "./entryHistory/EntryHistory";
 
+import Fallback from "../common/Fallback";
+
 import {
   createEntry,
   updateEntry,
@@ -68,8 +70,4 @@ export default function ListView() {
       {entryList ? <EntryHistory entryList={entryList} /> : <Fallback />}
     </div>
   );
-}
-
-function Fallback() {
-  return <div>loading...</div>;
 }
