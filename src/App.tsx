@@ -1,16 +1,24 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
+import CalendarView from "./components/calendarView/CalendarView";
 import Layout from "./components/layout/Layout";
 import ListView from "./components/listView/ListView";
 import EntryProvider from "./contexts/entry/EntryProvider";
 import ModalProvider from "./contexts/modal/ModalProvider";
 import { useViewContext } from "./contexts/view/ViewContext";
 import ViewProvider from "./contexts/view/ViewProvider";
+import type { ViewType } from "./types";
+
+const VIEW_MAP: Record<ViewType, ReactNode> = {
+  list: <ListView />,
+  calendar: <CalendarView />,
+  charts: <div>Charts View</div>,
+};
 
 function Page() {
   const { view } = useViewContext();
 
-  return <Layout>{view === "list" && <ListView />}</Layout>;
+  return <Layout>{VIEW_MAP[view]}</Layout>;
 }
 
 function Providers({ children }: PropsWithChildren) {
