@@ -1,4 +1,9 @@
-import { useState, useCallback, type PropsWithChildren } from "react";
+import {
+  useState,
+  useCallback,
+  type PropsWithChildren,
+  useEffect,
+} from "react";
 
 import { EntryContext } from "./EntryContext";
 
@@ -22,6 +27,10 @@ export default function EntryProvider({ children }: PropsWithChildren) {
   const selectEntry = (entry: Entry | null) => {
     setSelectedEntry(entry);
   };
+
+  useEffect(() => {
+    fetchEntryList();
+  }, [fetchEntryList]);
 
   return (
     <EntryContext.Provider

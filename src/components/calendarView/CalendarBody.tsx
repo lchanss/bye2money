@@ -1,14 +1,28 @@
+import { useMemo } from "react";
+
+import type { DailyGroup } from "@/types";
+import { formatAmount, formatAmountWithSign, formatDate } from "@/utils";
+
 type CalendarBodyProps = {
   date: Date; // 해당 월의 첫날 (예: 2025-08-01)
+  dailyGroups: DailyGroup[];
 };
 
 type DateInfo = {
-  date: number;
+  date: Date;
   isCurrentMonth: boolean;
 };
 
-export default function CalendarBody({ date }: CalendarBodyProps) {
+export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
   const weeks = generateCalendarDates(date);
+
+  const dailyGroupMap = useMemo(() => {
+    const map = new Map<string, DailyGroup>();
+    dailyGroups.forEach((group) => {
+      map.set(group.date, group);
+    });
+    return map;
+  }, [dailyGroups]);
 
   return (
     <div className="divide-neutral-border-default flex w-212 flex-col divide-y">
@@ -17,24 +31,62 @@ export default function CalendarBody({ date }: CalendarBodyProps) {
           key={weekIndex}
           className="divide-neutral-border-default flex divide-x"
         >
-          {week.map((dateInfo, dayIndex) => (
-            <DateCell key={dayIndex} dateInfo={dateInfo} />
-          ))}
+          {week.map((dateInfo) => {
+            const dateKey = formatDate(dateInfo.date);
+            const dailyGroup = dailyGroupMap.get(dateKey);
+
+            return (
+              <DateCell
+                key={dateKey}
+                dateInfo={dateInfo}
+                dailySummary={dailyGroup?.dailySummary}
+              />
+            );
+          })}
         </div>
       ))}
     </div>
   );
 }
 
-function DateCell({ dateInfo }: { dateInfo: DateInfo }) {
+type DateCellProps = {
+  dateInfo: DateInfo;
+  dailySummary?: DailyGroup["dailySummary"];
+};
+
+function DateCell({ dateInfo, dailySummary }: DateCellProps) {
+  const dailyTotal = dailySummary?.income
+    ? dailySummary.income - dailySummary.expense
+    : 0;
+
   return (
     <div
       className={`bg-neutral-surface-default flex h-30 flex-1 flex-col gap-4 p-2 ${
-        !dateInfo.isCurrentMonth && "opacity-40"
+        !dateInfo.isCurrentMonth && "text-neutral-text-weak"
       }`}
     >
-      <div className="flex-1 bg-amber-200">내역</div>
-      <div className="text-serif-14 text-right">{dateInfo.date}</div>
+      <section className="flex-1">
+        {dailySummary && (
+          <>
+            {dailySummary.income ? (
+              <p className="text-brand-text-income">
+                {formatAmount(dailySummary.income)}
+              </p>
+            ) : null}
+            {dailySummary.expense ? (
+              <p className="text-brand-text-expense">
+                {formatAmountWithSign(dailySummary.expense, "expense")}
+              </p>
+            ) : null}
+            {dailyTotal ? (
+              <p className="text-neutral-text-default">
+                {formatAmount(dailyTotal)}
+              </p>
+            ) : null}
+          </>
+        )}
+      </section>
+      <div className="text-serif-14 text-right">{dateInfo.date.getDate()}</div>
     </div>
   );
 }
@@ -59,7 +111,7 @@ const generateCalendarDates = (firstDayOfMonth: Date): DateInfo[][] => {
   // 이전 달 날짜들
   for (let i = firstDayOfWeek - 1; i >= 0; i--) {
     dates.push({
-      date: lastDateOfPrevMonth - i,
+      date: new Date(year, month - 1, lastDateOfPrevMonth - i),
       isCurrentMonth: false,
     });
   }
@@ -67,7 +119,7 @@ const generateCalendarDates = (firstDayOfMonth: Date): DateInfo[][] => {
   // 현재 달 날짜들
   for (let i = 1; i <= lastDate; i++) {
     dates.push({
-      date: i,
+      date: new Date(year, month, i),
       isCurrentMonth: true,
     });
   }
@@ -79,7 +131,7 @@ const generateCalendarDates = (firstDayOfMonth: Date): DateInfo[][] => {
     imcompleteDaysCount === 0 ? 0 : DAYS_PER_WEEK - imcompleteDaysCount;
   for (let i = 1; i <= remainingCellsCount; i++) {
     dates.push({
-      date: i,
+      date: new Date(year, month + 1, i),
       isCurrentMonth: false,
     });
   }
