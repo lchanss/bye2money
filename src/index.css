@@ -10,6 +10,11 @@ button {
 
 input {
   display: block; /* 기본 여백을 없애기 위함 */
+
+  /* 체크박스 커스텀하기 위함 */
+  &[type="checkbox"] {
+    display: none;
+  }
 }
 
 @font-face {

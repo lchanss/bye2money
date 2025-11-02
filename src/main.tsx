@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 
 import "./index.css";
+import ViewProvider from "./contexts/view/ViewProvider.tsx";
 
 async function enableMocking() {
   if (import.meta.env.MODE !== "development") {
@@ -20,7 +21,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <App />
+      <ViewProvider>
+        <App />
+      </ViewProvider>
     </StrictMode>,
   );
 });

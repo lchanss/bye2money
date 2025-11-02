@@ -1,30 +1,29 @@
-import { useState } from "react";
-
 import CalendarIcon from "@/assets/icons/calendar.svg?react";
 import ChartIcon from "@/assets/icons/chart.svg?react";
 import DocIcon from "@/assets/icons/doc.svg?react";
+import { useViewContext } from "@/contexts/view/ViewContext";
+import type { ViewType } from "@/types";
 
-const views: { type: ViewType; icon: React.ComponentType }[] = [
-  { type: "documents", icon: DocIcon },
+const VIEW_LIST: { type: ViewType; icon: React.ComponentType }[] = [
+  { type: "list", icon: DocIcon },
   { type: "calendar", icon: CalendarIcon },
   { type: "charts", icon: ChartIcon },
-];
-type ViewType = "documents" | "calendar" | "charts";
+] as const;
 
 export default function ViewSelector() {
-  const [selectedView, setSelectedView] = useState<ViewType>("documents");
+  const { view: currentView, setView: setCurrentView } = useViewContext();
 
   const handleViewChange = (view: ViewType) => {
-    setSelectedView(view);
+    setCurrentView(view);
   };
 
   return (
     <div className="flex gap-1">
-      {views.map((view) => (
+      {VIEW_LIST.map((view) => (
         <ViewButton
           key={view.type}
           icon={view.icon}
-          isSelected={selectedView === view.type}
+          isSelected={currentView === view.type}
           onClick={() => handleViewChange(view.type)}
         />
       ))}
@@ -35,7 +34,7 @@ export default function ViewSelector() {
 type ViewButtonProps = {
   icon: React.ComponentType;
   isSelected: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 function ViewButton({ icon: Icon, isSelected, onClick }: ViewButtonProps) {
