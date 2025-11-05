@@ -22,6 +22,8 @@ export default function Dropdown({
 
   // 외부 클릭 감지
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleOutsideClick = (event: MouseEvent) => {
       if (
         dropdownRef.current &&

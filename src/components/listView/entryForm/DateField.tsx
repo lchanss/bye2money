@@ -6,7 +6,6 @@ type DateFieldProps = {
 };
 
 export default function DateField({ value, onChange }: DateFieldProps) {
-  console.log(value);
   return (
     <LabeledField label="일자" htmlFor="date" width="w-[88px]">
       <input
