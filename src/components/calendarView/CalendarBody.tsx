@@ -84,9 +84,9 @@ const generateCalendarDates = (currentDate: Date): DateInfo[][] => {
 
   // 다음 달 날짜들 (DAYS_PER_WEEK의 배수가 되도록)
   const totalCellsCount = dates.length;
-  const imcompleteDaysCount = totalCellsCount % DAYS_PER_WEEK;
+  const incompleteDaysCount = totalCellsCount % DAYS_PER_WEEK;
   const remainingCellsCount =
-    imcompleteDaysCount === 0 ? 0 : DAYS_PER_WEEK - imcompleteDaysCount;
+    incompleteDaysCount === 0 ? 0 : DAYS_PER_WEEK - incompleteDaysCount;
   for (let i = 1; i <= remainingCellsCount; i++) {
     dates.push({
       date: new Date(year, month + 1, i),
