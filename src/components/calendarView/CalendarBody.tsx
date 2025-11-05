@@ -16,9 +16,9 @@ export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
   const weeks = generateCalendarDates(date);
 
   const dailyGroupMap = useMemo(() => {
-    const map = new Map<string, DailyGroup>();
+    const map: Record<string, DailyGroup> = {};
     dailyGroups.forEach((group) => {
-      map.set(group.date, group);
+      map[group.date] = group;
     });
     return map;
   }, [dailyGroups]);
@@ -32,7 +32,7 @@ export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
         >
           {week.map((dateInfo) => {
             const dateKey = formatDate(dateInfo.date);
-            const dailyGroup = dailyGroupMap.get(dateKey);
+            const dailyGroup = dailyGroupMap[dateKey];
 
             return (
               <DateCell
