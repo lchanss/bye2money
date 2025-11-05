@@ -10,9 +10,8 @@ type CalendarBodyProps = {
   dailyGroups: DailyGroup[];
 };
 
-const today = new Date();
-
 export default function CalendarBody({ date, dailyGroups }: CalendarBodyProps) {
+  const today = new Date();
   const weeks = generateCalendarDates(date);
 
   const dailyGroupMap = useMemo(() => {
