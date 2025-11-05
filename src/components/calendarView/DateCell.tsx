@@ -37,21 +37,21 @@ function DailySummarySection({ dailySummary }: DailySummarySectionProps) {
     <section className="flex-1">
       {dailySummary && (
         <>
-          {dailySummary.income ? (
+          {dailySummary.income > 0 && (
             <AmountText
               amount={dailySummary.income}
               color="text-brand-text-income"
             />
-          ) : null}
-          {dailySummary.expense ? (
+          )}
+          {dailySummary.expense > 0 && (
             <AmountText
               amount={0 - dailySummary.expense}
               color="text-brand-text-expense"
             />
-          ) : null}
-          {dailyTotal ? (
+          )}
+          {dailyTotal != 0 && (
             <AmountText amount={dailyTotal} color="text-neutral-text-default" />
-          ) : null}
+          )}
         </>
       )}
     </section>
