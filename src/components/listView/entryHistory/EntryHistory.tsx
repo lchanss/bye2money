@@ -5,7 +5,7 @@ import EntrySummary from "./EntrySummary";
 
 import type { GetEntryListResponse } from "@/apis/entry";
 import Fallback from "@/components/common/Fallback";
-import type { EntryType } from "@/types";
+import type { DailyGroup, Entry, EntryType } from "@/types";
 
 type EntryHistoryProps = {
   entryList: GetEntryListResponse;
@@ -58,39 +58,62 @@ const filterEntryList = (
     };
   }
 
-  // 필터링된 dailyGroups 생성
-  const filteredGroups: GetEntryListResponse["dailyGroups"] = data.dailyGroups
-    .map((group) => {
-      const filteredEntries = group.entries.filter((entry) => {
-        if (filter.income && entry.entryType === "income") return true;
-        if (filter.expense && entry.entryType === "expense") return true;
-        return false;
-      });
+  const filteredGroups = data.dailyGroups
+    .map((group) => filterDailyGroup(group, filter))
+    .filter((group) => filterEmptyGroup(group));
 
-      const dailySummary = {
-        income: filter.income ? group.dailySummary.income : 0,
-        expense: filter.expense ? group.dailySummary.expense : 0,
-      };
-
-      return {
-        ...group,
-        dailySummary,
-        entries: filteredEntries,
-      };
-    })
-    .filter((group) => group.entries.length > 0); // 빈 날짜 제거
-
-  // 전체 summary 재계산
-  const summary: GetEntryListResponse["summary"] = {
-    ...data.summary,
-    totalCount: filteredGroups.reduce(
-      (sum, group) => sum + group.entries.length,
-      0,
-    ),
-  };
+  const summary = recalculateTotalSummary(data.summary, filteredGroups);
 
   return {
     summary,
     dailyGroups: filteredGroups,
+  };
+};
+
+const filterEntries = (entries: Entry[], filter: FilterType): Entry[] => {
+  return entries.filter((entry) => {
+    if (filter.income && entry.entryType === "income") return true;
+    if (filter.expense && entry.entryType === "expense") return true;
+    return false;
+  });
+};
+
+const calculateDailySummary = (
+  originalSummary: DailyGroup["dailySummary"],
+  filter: FilterType,
+): DailyGroup["dailySummary"] => {
+  return {
+    income: filter.income ? originalSummary.income : 0,
+    expense: filter.expense ? originalSummary.expense : 0,
+  };
+};
+
+const filterDailyGroup = (
+  group: DailyGroup,
+  filter: FilterType,
+): DailyGroup => {
+  return {
+    ...group,
+    dailySummary: calculateDailySummary(group.dailySummary, filter),
+    entries: filterEntries(group.entries, filter),
+  };
+};
+
+const filterEmptyGroup = (group: DailyGroup) => {
+  return group.entries.length > 0;
+};
+
+const recalculateTotalSummary = (
+  originalSummary: GetEntryListResponse["summary"],
+  filteredGroups: DailyGroup[],
+): GetEntryListResponse["summary"] => {
+  const totalCount = filteredGroups.reduce(
+    (sum, group) => sum + group.entries.length,
+    0,
+  );
+
+  return {
+    ...originalSummary,
+    totalCount,
   };
 };
